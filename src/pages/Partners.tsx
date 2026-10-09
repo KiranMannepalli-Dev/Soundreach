@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DollarSign, Headphones, Shield, Settings, ArrowUpRight, CheckCircle, Speaker } from 'lucide-react';
+import { DollarSign, Headphones, Shield, Settings, ArrowUpRight, CheckCircle } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 
 export default function Partners() {
