@@ -37,10 +37,12 @@ const Footer = () => {
             <div>
               <h3 className="font-podium text-lg uppercase tracking-widest text-white mb-6">Explore</h3>
               <ul className="flex flex-col gap-4">
-                <li><Link to="/network" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">The Network</Link></li>
+                <li><Link to="/network" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">Our Network</Link></li>
                 <li><Link to="/platform" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">Platform</Link></li>
-                <li><Link to="/advertisers" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">Advertisers</Link></li>
+                <li><Link to="/advertisers" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">For Advertisers</Link></li>
                 <li><Link to="/partners" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">Retail Partners</Link></li>
+                <li><Link to="/about" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">About Us</Link></li>
+                <li><Link to="/contact" className="text-white/60 hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold">Contact</Link></li>
               </ul>
             </div>
 
