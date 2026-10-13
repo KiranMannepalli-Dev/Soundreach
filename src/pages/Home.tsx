@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { ArrowUpRight, CheckCircle, MapPin, Users, Building2, Store, MessageSquare, Wand2, Radio } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 
 function MassiveScaleSection() {
@@ -31,7 +32,7 @@ function MassiveScaleSection() {
           <div className="flex-1 w-full flex justify-center lg:justify-start relative">
             <div className="absolute inset-0 bg-red-600/10 blur-[80px] rounded-full scale-75 pointer-events-none"></div>
             
-            <div className="relative z-10 w-full max-w-[240px] sm:max-w-[320px] lg:max-w-[420px] flex items-center justify-center cursor-pointer">
+            <Link to="/network" className="relative z-10 w-full max-w-[240px] sm:max-w-[320px] lg:max-w-[420px] flex items-center justify-center cursor-pointer">
               <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 pointer-events-none ${isPlaying ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="absolute w-28 h-28 sm:w-40 sm:h-40 border-[3px] sm:border-[4px] border-red-500 rounded-full animate-ping opacity-75" style={{ animationDuration: '1.5s' }}></div>
                 <div className="absolute w-44 h-44 sm:w-60 sm:h-60 border-[3px] sm:border-[4px] border-black/40 dark:border-white/40 rounded-full animate-ping opacity-50" style={{ animationDuration: '1.5s', animationDelay: '0.4s' }}></div>
@@ -43,7 +44,7 @@ function MassiveScaleSection() {
                 alt="Network Scale"
                 className={`relative z-10 w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(220,38,38,0.3)] transition-transform duration-700 ${isPlaying ? 'scale-105 sm:scale-110' : 'scale-100'}`}
               />
-            </div>
+            </Link>
           </div>
 
           <div className="max-w-2xl flex-1 w-full">
@@ -56,16 +57,16 @@ function MassiveScaleSection() {
               We're taking over thousands of retail spots, gyms, and cafes. This is your ultimate cheat code to live rent-free in your audience's mind while they shop, vibe, and live their best life.
             </p>
 
-            <div className="flex gap-8 sm:gap-16 mt-5 sm:mt-10">
+            <Link to="/network" className="inline-flex gap-8 sm:gap-16 mt-5 sm:mt-10 group cursor-pointer">
               <div>
-                <div className="font-podium text-4xl sm:text-7xl text-red-600">12M+</div>
-                <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 mt-1 sm:mt-2 font-semibold">Monthly Reach</div>
+                <div className="font-podium text-4xl sm:text-7xl text-red-600 group-hover:scale-105 transition-transform origin-left">12M+</div>
+                <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 mt-1 sm:mt-2 font-semibold">Monthly Reach &rarr;</div>
               </div>
               <div>
-                <div className="font-podium text-4xl sm:text-7xl text-red-600">5K+</div>
-                <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 mt-1 sm:mt-2 font-semibold">Venues</div>
+                <div className="font-podium text-4xl sm:text-7xl text-red-600 group-hover:scale-105 transition-transform origin-left">5K+</div>
+                <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 mt-1 sm:mt-2 font-semibold">Venues &rarr;</div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -76,8 +77,9 @@ function MassiveScaleSection() {
             { icon: Building2, name: 'Malls & Plazas', count: '800+ locations', bgImage: '/Malls.png' },
             { icon: MapPin, name: 'Convenience', count: '1,600+ locations', bgImage: '/Futuristic Neon 24_7 Convenience Store.png' }
           ].map((venue, i) => (
-            <div 
+            <Link 
               key={i} 
+              to="/network"
               className={`group p-2.5 sm:p-6 flex flex-col justify-end min-h-[160px] sm:min-h-[220px] border border-black/10 dark:border-white/20 shadow-md sm:shadow-lg hover:shadow-[0_0_30px_rgba(220,38,38,0.15)] hover:-translate-y-1 transition-all duration-300 cursor-pointer rounded-xl relative z-20 overflow-hidden ${!venue.bgImage ? 'bg-neutral-100 dark:bg-neutral-900' : 'bg-cover bg-center'}`}
               style={venue.bgImage ? { backgroundImage: `url('${venue.bgImage}')` } : {}}
             >
@@ -85,8 +87,18 @@ function MassiveScaleSection() {
                 <div className="font-podium text-xs sm:text-xl uppercase relative z-10 tracking-tight text-black leading-tight sm:leading-none">{venue.name}</div>
                 <div className={`mt-0.5 sm:mt-1 relative z-10 ${venue.bgImage ? 'text-red-600 font-bold uppercase tracking-widest text-[8px] sm:text-[10px]' : 'text-[9px] sm:text-xs font-medium text-black/80'}`}>{venue.count}</div>
               </div>
-            </div>
+            </Link>
           ))}
+        </div>
+
+        <div className="mt-8 sm:mt-12 flex justify-center">
+          <Link 
+            to="/network"
+            className="inline-flex items-center gap-3 bg-red-600 px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+          >
+            EXPLORE ALL 5,000+ VENUES
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>
@@ -149,10 +161,21 @@ function CTASection() {
             In-store audio hits different. It reaches shoppers right when they're ready to drop cash. Unskippable, totally relevant, and guaranteed to boost your sales. Big W.
           </p>
 
-          <button className="group w-full sm:w-auto inline-flex justify-center items-center gap-3 bg-black dark:bg-red-600 px-6 py-3.5 sm:px-8 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-widest text-white hover:text-red-400 dark:hover:bg-red-700 transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]">
-            START YOUR CAMPAIGN
-            <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-          </button>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <Link 
+              to="/advertisers"
+              className="group w-full sm:w-auto inline-flex justify-center items-center gap-3 bg-black dark:bg-red-600 px-6 py-3.5 sm:px-8 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-widest text-white hover:text-red-400 dark:hover:bg-red-700 transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+            >
+              START YOUR CAMPAIGN
+              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+            </Link>
+            <Link
+              to="/partners"
+              className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-transparent px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-widest text-black dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors"
+            >
+              Retailer? Monetize Your Space &rarr;
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -192,18 +215,24 @@ export default function Home() {
             </p>
 
             <div className="animate-fade-up-delay-5 mt-6 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6">
-              <button className="group w-full sm:w-auto relative overflow-hidden flex justify-center items-center gap-2 bg-black dark:bg-red-600 px-6 py-4 text-xs font-bold uppercase tracking-widest text-white hover:text-red-400 dark:hover:bg-red-700 transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]">
+              <Link 
+                to="/advertisers"
+                className="group w-full sm:w-auto relative overflow-hidden flex justify-center items-center gap-2 bg-black dark:bg-red-600 px-6 py-4 text-xs font-bold uppercase tracking-widest text-white hover:text-red-400 dark:hover:bg-red-700 transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+              >
                 <span className="relative z-10 font-bold">START A CAMPAIGN</span>
                 <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </button>
+              </Link>
 
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-black/80 dark:text-white/80">
+              <Link 
+                to="/platform"
+                className="flex items-center justify-center sm:justify-start gap-2 text-black/80 dark:text-white/80 group hover:opacity-80 transition-opacity cursor-pointer"
+              >
                 <CheckCircle className="h-4 w-4 text-red-600 shrink-0" />
                 <div className="flex items-center gap-1.5 sm:flex-col sm:items-start text-[11px] sm:text-[10px] uppercase tracking-wider font-semibold">
                   <span className="text-black/50 dark:text-white/50">Self-Serve or</span>
-                  <span className="text-black/90 dark:text-white/90 font-bold">Managed Service</span>
+                  <span className="text-black/90 dark:text-white/90 font-bold group-hover:text-red-600 transition-colors">Managed Service &rarr;</span>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
 
@@ -250,38 +279,58 @@ export default function Home() {
             {[
               {
                 title: 'Vibe Check',
-                desc: 'Slide into our DMs (or contact form) with your campaign goals. We consult with you to build a highly targeted audio strategy that actually slaps.',
-                icon: MessageSquare
+                desc: 'Slide into our contact form with your campaign goals. We build a highly targeted audio strategy that actually slaps.',
+                icon: MessageSquare,
+                href: '/contact'
               },
               {
                 title: 'We Let Him Cook',
                 desc: 'Our creative team takes your notes and cooks up high-quality, engaging audio ads that live rent-free in their heads.',
-                icon: Wand2
+                icon: Wand2,
+                href: '/platform'
               },
               {
                 title: 'Drop & Track',
-                desc: 'Your audio drops across targeted spots. Watch your campaign numbers go brrr in real-time with our tracking dashboard.',
-                icon: Radio
+                desc: 'Your audio drops across targeted spots. Watch your campaign numbers go brrr in real-time with our live dashboard.',
+                icon: Radio,
+                href: '/advertisers'
               }
             ].map((item, i) => (
-              <div key={i} className="relative flex flex-col items-center text-center">
-                <div className="relative group mb-3 sm:mb-8">
+              <Link 
+                key={i} 
+                to={item.href}
+                className="relative flex flex-col items-center text-center group cursor-pointer"
+              >
+                <div className="relative mb-3 sm:mb-8">
                   {/* Subtle outer pulsing ring that activates on hover */}
                   <div className="absolute -inset-2 rounded-full border-2 border-red-500/0 group-hover:border-red-500/40 group-hover:animate-ping transition-all duration-700"></div>
 
                   {/* Circle container with continuous float and hover lift */}
                   <div
-                    className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-black border-2 border-black dark:border-white shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] flex items-center justify-center relative z-10 transition-all duration-300 hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] animate-float"
+                    className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-black border-2 border-black dark:border-white shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] flex items-center justify-center relative z-10 transition-all duration-300 group-hover:shadow-none group-hover:translate-x-[4px] group-hover:translate-y-[4px] animate-float"
                     style={{ animationDelay: `${i * 0.4}s` }}
                   >
                     {/* Icon with scaling/rotation on hover */}
                     <item.icon className="h-5 w-5 sm:h-8 sm:w-8 text-red-500 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6" />
                   </div>
                 </div>
-                <h3 className="font-podium text-xl sm:text-3xl uppercase mb-1.5 sm:mb-4 transition-colors text-black dark:text-white drop-shadow-[0_2px_8px_rgba(255,255,255,0.9)] dark:drop-shadow-none">{item.title}</h3>
-                <p className="text-black dark:text-white/90 text-xs sm:text-sm leading-relaxed max-w-sm sm:max-w-xs drop-shadow-[0_1px_4px_rgba(255,255,255,0.9)] dark:drop-shadow-none font-medium bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm p-3 sm:p-4 rounded-lg border border-black/10 dark:border-white/10 shadow-sm">{item.desc}</p>
-              </div>
+                <h3 className="font-podium text-xl sm:text-3xl uppercase mb-1.5 sm:mb-4 transition-colors text-black dark:text-white group-hover:text-red-600 drop-shadow-[0_2px_8px_rgba(255,255,255,0.9)] dark:drop-shadow-none flex items-center gap-1.5">
+                  {item.title}
+                  <ArrowUpRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </h3>
+                <p className="text-black dark:text-white/90 text-xs sm:text-sm leading-relaxed max-w-sm sm:max-w-xs drop-shadow-[0_1px_4px_rgba(255,255,255,0.9)] dark:drop-shadow-none font-medium bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm p-3 sm:p-4 rounded-lg border border-black/10 dark:border-white/10 shadow-sm group-hover:border-red-500/40 transition-colors">{item.desc}</p>
+              </Link>
             ))}
+          </div>
+
+          <div className="mt-8 sm:mt-12 flex justify-center">
+            <Link 
+              to="/advertisers"
+              className="inline-flex items-center gap-3 bg-red-600 px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+            >
+              LAUNCH YOUR CAMPAIGN IN MINUTES
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

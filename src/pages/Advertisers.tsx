@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { ArrowUpRight, CheckCircle, BarChart3, Users, Store, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 
 export default function Advertisers() {
@@ -75,9 +76,13 @@ export default function Advertisers() {
                 CONTACT SALES
                 <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
               </a>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-black/60 dark:text-white/60 text-xs sm:text-sm font-medium">
-                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 shrink-0" /> No commitments
-              </div>
+              <Link to="/network" className="group inline-flex justify-center items-center gap-3 bg-white dark:bg-black text-black dark:text-white px-6 py-4 sm:px-8 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-widest transition-all border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer">
+                SEE 5,000+ VENUES
+                <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+              </Link>
+            </div>
+            <div className="flex items-center gap-2 text-black/60 dark:text-white/60 text-xs sm:text-sm font-medium mt-4">
+              <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 shrink-0" /> Zero commitments &bull; Live within 48 hours
             </div>
           </div>
         </div>
@@ -99,15 +104,33 @@ export default function Advertisers() {
 
           <div className="grid md:grid-cols-3 gap-4 sm:gap-8">
             {[
-              { title: 'The Checkout Flex', desc: 'Hit customers while they\'re literally holding the product. No scrolling, just buying.', icon: Store },
-              { title: 'Unskippable Vibes', desc: 'Unlike those digital ads getting fast-forwarded, in-store audio can\'t be skipped, blocked, or swiped away. Period.', icon: Users },
-              { title: 'The Receipts', desc: 'Link those ad plays directly to point-of-sale data to prove the sales lift. We always bring the receipts.', icon: BarChart3 }
+              { title: 'The Checkout Flex', desc: 'Hit customers while they\'re literally holding the product. No scrolling, just buying.', icon: Store, link: '/network', cta: 'Explore Venues' },
+              { title: 'Unskippable Vibes', desc: 'Unlike those digital ads getting fast-forwarded, in-store audio can\'t be skipped, blocked, or swiped away. Period.', icon: Users, link: '/platform', cta: 'How Tech Works' },
+              { title: 'The Receipts', desc: 'Link those ad plays directly to point-of-sale data to prove the sales lift. We always bring the receipts.', icon: BarChart3, link: '#contact-sales', cta: 'Get Projections' }
             ].map((benefit, i) => (
-              <div key={i} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group">
-                <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3">{benefit.title}</h3>
-                <p className="text-black/75 text-xs sm:text-sm leading-relaxed">{benefit.desc}</p>
-              </div>
+              benefit.link.startsWith('#') ? (
+                <a key={i} href={benefit.link} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col justify-between cursor-pointer">
+                  <div>
+                    <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
+                    <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3 group-hover:text-red-600 transition-colors">{benefit.title}</h3>
+                    <p className="text-black/75 text-xs sm:text-sm leading-relaxed mb-4">{benefit.desc}</p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-red-600 group-hover:underline">
+                    {benefit.cta} <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </a>
+              ) : (
+                <Link key={i} to={benefit.link} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col justify-between cursor-pointer">
+                  <div>
+                    <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
+                    <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3 group-hover:text-red-600 transition-colors">{benefit.title}</h3>
+                    <p className="text-black/75 text-xs sm:text-sm leading-relaxed mb-4">{benefit.desc}</p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-red-600 group-hover:underline">
+                    {benefit.cta} <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </Link>
+              )
             ))}
           </div>
         </div>
@@ -139,18 +162,21 @@ export default function Advertisers() {
             </ul>
           </div>
           <div className="w-full md:w-1/2 grid grid-cols-2 gap-3 sm:gap-4">
-            <div className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer">
-              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2">24%</div>
+            <a href="#contact-sales" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
+              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">24%</div>
               <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Avg. Sales Lift</div>
-            </div>
-            <div className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer">
-              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2">78%</div>
+              <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Contact Sales &rarr;</span>
+            </a>
+            <Link to="/platform" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
+              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">78%</div>
               <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Ad Recall</div>
-            </div>
-            <div className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center col-span-2 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer">
-              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2">12M+</div>
+              <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Platform &rarr;</span>
+            </Link>
+            <Link to="/network" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center col-span-2 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
+              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">12M+</div>
               <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Monthly Reach</div>
-            </div>
+              <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Explore 5,000+ Venues &rarr;</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -218,6 +244,35 @@ export default function Advertisers() {
             </button>
             </form>
           )}
+        </div>
+      </section>
+
+      {/* Retail Partner Cross-Sell Section */}
+      <section className="px-4 sm:px-10 lg:px-16 py-10 sm:py-16 bg-neutral-100 dark:bg-neutral-900 border-t border-black/10 dark:border-white/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 bg-white dark:bg-black p-6 sm:p-10 border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)]">
+          <div>
+            <h3 className="font-podium text-2xl sm:text-3xl uppercase tracking-wider text-black dark:text-white mb-2">
+              Are You a Store or Venue Owner?
+            </h3>
+            <p className="text-black/70 dark:text-white/70 text-xs sm:text-sm font-normal max-w-xl">
+              Turn your existing in-store sound system into monthly recurring revenue with zero upfront cost or hardware fees.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
+            <Link 
+              to="/partners"
+              className="inline-flex justify-center items-center gap-2 bg-red-600 px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-all border-2 border-black dark:border-white/20 shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+            >
+              EXPLORE PARTNER PROGRAM
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link 
+              to="/contact"
+              className="inline-flex justify-center items-center gap-2 bg-transparent text-black dark:text-white px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all border-2 border-black dark:border-white/20 hover:border-red-600"
+            >
+              TALK TO TEAM
+            </Link>
+          </div>
         </div>
       </section>
 

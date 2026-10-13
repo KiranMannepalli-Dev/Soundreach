@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Volume2, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const JOKES = [
   "Did you know? Customers can't close their ears. We checked. (Biology = 1, Ad Blockers = 0)",
@@ -62,8 +63,19 @@ export default function JokePopups() {
           <p className="text-black/70 dark:text-white/70 text-sm font-inter leading-relaxed">
             {currentJoke}
           </p>
+          <div className="mt-3 pt-2.5 border-t border-black/10 dark:border-white/10 flex justify-between items-center">
+            <Link 
+              to="/advertisers" 
+              onClick={() => setCurrentJoke(null)}
+              className="text-[11px] font-bold text-red-600 hover:text-red-700 uppercase tracking-wider flex items-center gap-1 group"
+            >
+              Start Campaign <span className="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+            </Link>
+            <span className="text-[10px] text-black/40 dark:text-white/40 uppercase font-semibold">YedZ Media</span>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

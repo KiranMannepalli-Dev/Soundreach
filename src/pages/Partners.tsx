@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { DollarSign, Headphones, Shield, Settings, ArrowUpRight, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 
 export default function Partners() {
@@ -29,9 +30,13 @@ export default function Partners() {
                 BECOME A PARTNER
                 <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
               </a>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-black/60 dark:text-white/60 text-xs sm:text-sm font-medium">
-                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 shrink-0" /> Free hardware integration
-              </div>
+              <Link to="/network" className="group inline-flex justify-center items-center gap-3 bg-white dark:bg-black text-black dark:text-white px-6 py-4 sm:px-8 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-widest transition-all border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer">
+                VIEW CURRENT NETWORK
+                <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+              </Link>
+            </div>
+            <div className="flex items-center gap-2 text-black/60 dark:text-white/60 text-xs sm:text-sm font-medium mt-4">
+              <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 shrink-0" /> Free hardware integration &bull; Instant revenue share
             </div>
           </div>
 
@@ -39,13 +44,16 @@ export default function Partners() {
             {/* Visual background effect */}
             <div className="absolute inset-0 bg-red-600/10 blur-[100px] rounded-full"></div>
             
-            <div className="relative bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 lg:p-12 w-full max-w-md shadow-2xl z-10">
+            <a 
+              href="#partner-inquiry" 
+              className="relative block bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 lg:p-12 w-full max-w-md shadow-2xl z-10 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group"
+            >
               <div className="flex justify-between items-center mb-6 sm:mb-8 border-b border-black/10 pb-4 sm:pb-6">
                 <div>
                   <div className="text-black/60 text-[10px] sm:text-xs uppercase tracking-widest mb-1 font-semibold">Estimated Monthly</div>
                   <div className="text-black font-podium text-2xl sm:text-3xl">$4,250.00</div>
                 </div>
-                <div className="h-10 w-10 sm:h-12 sm:w-12 bg-red-600/10 flex items-center justify-center rounded-full">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 bg-red-600/10 flex items-center justify-center rounded-full group-hover:scale-110 transition-transform">
                   <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 text-red-600" />
                 </div>
               </div>
@@ -67,9 +75,12 @@ export default function Partners() {
                 <div className="w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
                   <div className="h-full bg-red-600 w-3/4"></div>
                 </div>
-                <div className="text-center text-[10px] sm:text-xs text-black/50 mt-2 sm:mt-3 font-semibold">Live Dashboard Preview</div>
+                <div className="flex justify-between items-center mt-2 sm:mt-3">
+                  <span className="text-[10px] sm:text-xs text-black/50 font-semibold">Live Dashboard Preview</span>
+                  <span className="text-[10px] sm:text-xs text-red-600 font-bold group-hover:underline">Calculate Earnings &rarr;</span>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </section>
@@ -87,16 +98,42 @@ export default function Partners() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {[
-              { title: 'Zero Cost', desc: 'We provide all necessary streaming hardware and software at absolutely no cost to you.', icon: Settings },
-              { title: 'Brand Safe', desc: 'You have complete control over which brands and categories can advertise in your stores.', icon: Shield },
-              { title: 'Premium Content', desc: 'Interleaved with high-quality, fully licensed background music curated for your brand.', icon: Headphones },
-              { title: 'Pure Profit', desc: 'Turn an existing operational expense (music licensing) into a profitable revenue center.', icon: DollarSign }
+              { title: 'Zero Cost', desc: 'We provide all necessary streaming hardware and software at absolutely no cost to you.', icon: Settings, link: '/platform', cta: 'Platform Specs' },
+              { title: 'Brand Safe', desc: 'You have complete control over which brands and categories can advertise in your stores.', icon: Shield, link: '/platform', cta: 'Safety Controls' },
+              { title: 'Premium Content', desc: 'Interleaved with high-quality, fully licensed background music curated for your brand.', icon: Headphones, link: '/advertisers', cta: 'Audio Samples' },
+              { title: 'Pure Profit', desc: 'Turn an existing operational expense (music licensing) into a profitable revenue center.', icon: DollarSign, link: '#partner-inquiry', cta: 'Get Started' }
             ].map((benefit, i) => (
-              <div key={i} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col items-center text-center">
-                <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3">{benefit.title}</h3>
-                <p className="text-black/70 text-xs sm:text-sm leading-relaxed">{benefit.desc}</p>
-              </div>
+              benefit.link.startsWith('#') ? (
+                <a 
+                  key={i} 
+                  href={benefit.link}
+                  className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col items-center text-center justify-between cursor-pointer"
+                >
+                  <div>
+                    <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
+                    <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3 group-hover:text-red-600 transition-colors">{benefit.title}</h3>
+                    <p className="text-black/70 text-xs sm:text-sm leading-relaxed mb-4">{benefit.desc}</p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-red-600 group-hover:underline">
+                    {benefit.cta} <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </a>
+              ) : (
+                <Link 
+                  key={i} 
+                  to={benefit.link}
+                  className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col items-center text-center justify-between cursor-pointer"
+                >
+                  <div>
+                    <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
+                    <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3 group-hover:text-red-600 transition-colors">{benefit.title}</h3>
+                    <p className="text-black/70 text-xs sm:text-sm leading-relaxed mb-4">{benefit.desc}</p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-red-600 group-hover:underline">
+                    {benefit.cta} <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </Link>
+              )
             ))}
           </div>
         </div>
@@ -128,7 +165,7 @@ export default function Partners() {
               Getting started is literally so easy. Our hardware plugs straight into your setup. No complex wiring, no IT stress. Just pure vibes.
             </p>
             
-            <div className="space-y-5 sm:space-y-8">
+            <div className="space-y-5 sm:space-y-8 mb-8 sm:mb-10">
               {[
                 { step: '01', title: 'Connect Hardware', desc: 'Plug our pre-configured streaming receiver into your amp and watch the magic happen.' },
                 { step: '02', title: 'Set Preferences', desc: 'Log in, curate your aesthetic with the right music genres, and block any ads that don\'t pass the vibe check.' },
@@ -142,6 +179,23 @@ export default function Partners() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+              <a 
+                href="#partner-inquiry"
+                className="inline-flex justify-center items-center gap-2 bg-red-600 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-all border-2 border-black dark:border-white/20 shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+              >
+                REQUEST HARDWARE INTEGRATION
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+              <Link 
+                to="/platform"
+                className="inline-flex justify-center items-center gap-2 bg-white dark:bg-black text-black dark:text-white px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all border-2 border-black dark:border-white/20 shadow-[3px_3px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+              >
+                PLATFORM ARCHITECTURE
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>
@@ -227,6 +281,35 @@ export default function Partners() {
             </button>
             </form>
           )}
+        </div>
+      </section>
+
+      {/* Advertiser Cross-Sell Section */}
+      <section className="px-4 sm:px-10 lg:px-16 py-10 sm:py-16 bg-neutral-100 dark:bg-neutral-900 border-t border-black/10 dark:border-white/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 bg-white dark:bg-black p-6 sm:p-10 border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)]">
+          <div>
+            <h3 className="font-podium text-2xl sm:text-3xl uppercase tracking-wider text-black dark:text-white mb-2">
+              Looking to Advertise Your Brand Instead?
+            </h3>
+            <p className="text-black/70 dark:text-white/70 text-xs sm:text-sm font-normal max-w-xl">
+              Deliver unskippable audio ads to 12M+ shoppers inside grocery stores, gyms, convenience shops, and retail centers nationwide.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
+            <Link 
+              to="/advertisers"
+              className="inline-flex justify-center items-center gap-2 bg-red-600 px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-all border-2 border-black dark:border-white/20 shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+            >
+              LAUNCH CAMPAIGN
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link 
+              to="/network"
+              className="inline-flex justify-center items-center gap-2 bg-transparent text-black dark:text-white px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all border-2 border-black dark:border-white/20 hover:border-red-600"
+            >
+              VIEW LOCATIONS
+            </Link>
+          </div>
         </div>
       </section>
 

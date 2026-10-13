@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Phone, MapPin, ArrowUpRight, MessageSquare, Briefcase, HelpCircle, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -21,9 +22,20 @@ export default function Contact() {
           <h1 className="animate-scale-glow font-podium uppercase leading-[0.9] tracking-tight text-black dark:text-white text-5xl sm:text-7xl lg:text-9xl mb-4 sm:mb-6">
             Hit Us <span className="bg-gradient-to-r from-red-500 to-rose-700 bg-clip-text text-transparent">Up</span>
           </h1>
-          <p className="max-w-2xl mx-auto font-inter text-sm sm:text-lg text-black/70 dark:text-white/70 leading-relaxed">
+          <p className="max-w-2xl mx-auto font-inter text-sm sm:text-lg text-black/70 dark:text-white/70 leading-relaxed mb-6 sm:mb-8">
             Whether you're a brand ready to drop a fire campaign, or a retailer trying to secure the bag with your store's audio, our squad is ready.
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link to="/advertisers" className="text-xs uppercase tracking-wider font-bold px-4 py-2 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/10 hover:border-red-600 text-black dark:text-white transition-colors">
+              Advertiser Hub &rarr;
+            </Link>
+            <Link to="/partners" className="text-xs uppercase tracking-wider font-bold px-4 py-2 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/10 hover:border-red-600 text-black dark:text-white transition-colors">
+              Retail Partner Program &rarr;
+            </Link>
+            <Link to="/network" className="text-xs uppercase tracking-wider font-bold px-4 py-2 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/10 hover:border-red-600 text-black dark:text-white transition-colors">
+              Network Footprint &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -101,37 +113,46 @@ export default function Contact() {
                 
                 <div className="flex items-start gap-4 sm:gap-5 p-4 sm:p-6 bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] transition-all rounded-sm group">
                   <Briefcase className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 group-hover:scale-110 transition-transform shrink-0 mt-0.5" />
-                  <div>
+                  <div className="flex-1">
                     <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-0.5 sm:mb-1">Sales & Brands</h3>
                     <p className="text-black/70 text-xs sm:text-sm mb-2 sm:mb-3">Ready to drop that campaign?</p>
-                    <a href="mailto:sales@yedzmedia.com" className="text-black hover:text-red-600 transition-colors text-xs sm:text-sm font-medium flex items-center gap-2">
+                    <a href="mailto:sales@yedzmedia.com" className="text-black hover:text-red-600 transition-colors text-xs sm:text-sm font-medium flex items-center gap-2 mb-2">
                       <Mail className="h-4 w-4 text-red-600" /> sales@yedzmedia.com
                     </a>
+                    <Link to="/advertisers" className="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 hover:text-red-700 uppercase tracking-widest">
+                      Advertiser Info &rarr;
+                    </Link>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4 sm:gap-5 p-4 sm:p-6 bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] transition-all rounded-sm group">
                   <MessageSquare className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 group-hover:scale-110 transition-transform shrink-0 mt-0.5" />
-                  <div>
+                  <div className="flex-1">
                     <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-0.5 sm:mb-1">Retail Partners</h3>
                     <p className="text-black/70 text-xs sm:text-sm mb-2 sm:mb-3">Secure the bag with your store's audio.</p>
-                    <a href="mailto:partners@yedzmedia.com" className="text-black hover:text-red-600 transition-colors text-xs sm:text-sm font-medium flex items-center gap-2">
+                    <a href="mailto:partners@yedzmedia.com" className="text-black hover:text-red-600 transition-colors text-xs sm:text-sm font-medium flex items-center gap-2 mb-2">
                       <Mail className="h-4 w-4 text-red-600" /> partners@yedzmedia.com
                     </a>
+                    <Link to="/partners" className="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 hover:text-red-700 uppercase tracking-widest">
+                      Partner Program &rarr;
+                    </Link>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4 sm:gap-5 p-4 sm:p-6 bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] transition-all rounded-sm group">
                   <HelpCircle className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 group-hover:scale-110 transition-transform shrink-0 mt-0.5" />
-                  <div>
+                  <div className="flex-1">
                     <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-0.5 sm:mb-1">General Support</h3>
                     <p className="text-black/70 text-xs sm:text-sm mb-2 sm:mb-3">Need help with our platform?</p>
                     <a href="mailto:support@yedzmedia.com" className="text-black hover:text-red-600 transition-colors text-xs sm:text-sm font-medium flex items-center gap-2 mb-1.5 sm:mb-2">
                       <Mail className="h-4 w-4 text-red-600" /> support@yedzmedia.com
                     </a>
-                    <a href="tel:+18005551234" className="text-black hover:text-red-600 transition-colors text-xs sm:text-sm font-medium flex items-center gap-2">
+                    <a href="tel:+18005551234" className="text-black hover:text-red-600 transition-colors text-xs sm:text-sm font-medium flex items-center gap-2 mb-2">
                       <Phone className="h-4 w-4 text-red-600" /> +1 (800) 555-1234
                     </a>
+                    <Link to="/platform" className="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 hover:text-red-700 uppercase tracking-widest">
+                      Platform Architecture &rarr;
+                    </Link>
                   </div>
                 </div>
 

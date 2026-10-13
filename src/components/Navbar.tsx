@@ -11,6 +11,7 @@ export default function Navbar() {
     { name: 'Our Network', href: '/network' },
     { name: 'Platform', href: '/platform' },
     { name: 'For Advertisers', href: '/advertisers' },
+    { name: 'Retail Partners', href: '/partners' },
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' }
   ];
@@ -43,12 +44,12 @@ export default function Navbar() {
           </Link>
           
           {/* Desktop Nav Tabs */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-10">
+          <div className="hidden md:flex items-center gap-4 lg:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className="relative text-lg sm:text-xl font-podium tracking-[0.1em] uppercase text-black dark:text-white/80 transition-colors hover:text-red-600 dark:hover:text-red-500 group"
+                className="relative text-base lg:text-lg font-podium tracking-[0.08em] uppercase text-black dark:text-white/80 transition-colors hover:text-red-600 dark:hover:text-red-500 group"
               >
                 {link.name}
               </Link>
@@ -58,7 +59,10 @@ export default function Navbar() {
           {/* Actions: Theme Toggle + CTA Button */}
           <div className="hidden md:flex items-center gap-4">
             <ThemeToggle showLabel={false} />
-            <button className="group flex items-center gap-3 bg-red-600 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer overflow-hidden relative">
+            <Link 
+              to="/advertisers"
+              className="group flex items-center gap-3 bg-red-600 px-5 lg:px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer overflow-hidden relative"
+            >
               <span className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-600/30 to-red-600/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
               <div className="flex items-end gap-[2px] h-3 relative z-10">
                 <div className="w-[3px] bg-white group-hover:bg-red-100 transition-colors animate-[soundwave_1s_ease-in-out_infinite_alternate]" style={{ animationDelay: '0s' }}></div>
@@ -66,8 +70,8 @@ export default function Navbar() {
                 <div className="w-[3px] bg-white group-hover:bg-red-100 transition-colors animate-[soundwave_0.8s_ease-in-out_infinite_alternate]" style={{ animationDelay: '0.4s' }}></div>
                 <div className="w-[3px] bg-white group-hover:bg-red-100 transition-colors animate-[soundwave_1.1s_ease-in-out_infinite_alternate]" style={{ animationDelay: '0.1s' }}></div>
               </div>
-              <span className="relative z-10 font-podium tracking-[0.1em] text-lg">Premium In-Store Audio</span>
-            </button>
+              <span className="relative z-10 font-podium tracking-[0.1em] text-base lg:text-lg">Premium In-Store Audio</span>
+            </Link>
           </div>
 
           {/* Mobile Actions: Theme Toggle + Hamburger */}
@@ -109,29 +113,30 @@ export default function Navbar() {
           </div>
         </div>
         
-        <div className="flex flex-1 flex-col justify-start pt-12 sm:pt-24 px-8 sm:px-12 gap-0 overflow-y-auto pb-8">
+        <div className="flex flex-1 flex-col justify-start pt-8 sm:pt-16 px-8 sm:px-12 gap-0 overflow-y-auto pb-8">
           {navLinks.map((link, i) => (
             <Link
               key={link.name}
               to={link.href}
               onClick={() => setMenuOpen(false)}
-              className="group flex items-center justify-end py-4 sm:py-6 border-b border-black/5 dark:border-white/5 font-podium text-2xl sm:text-5xl uppercase text-black dark:text-white transition-all duration-500 hover:text-red-600 hover:pr-4"
+              className="group flex items-center justify-end py-3.5 sm:py-5 border-b border-black/5 dark:border-white/5 font-podium text-2xl sm:text-4xl uppercase text-black dark:text-white transition-all duration-500 hover:text-red-600 hover:pr-4"
               style={{
-                transitionDelay: `${i * 100 + 100}ms`,
+                transitionDelay: `${i * 80 + 80}ms`,
                 transform: menuOpen ? 'translateX(0)' : 'translateX(50px)',
                 opacity: menuOpen ? 1 : 0,
               }}
             >
-              <ChevronRight className="h-6 w-6 opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-red-600 mr-2" />
+              <ChevronRight className="h-5 w-5 opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-red-600 mr-2" />
               {link.name}
             </Link>
           ))}
           
-          <button
+          <Link
+            to="/advertisers"
             onClick={() => setMenuOpen(false)}
-            className="mt-12 flex items-center justify-center gap-3 bg-black dark:bg-red-600 px-8 py-5 text-sm font-bold uppercase tracking-widest text-white hover:text-red-400 dark:hover:bg-red-700 transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+            className="mt-8 flex items-center justify-center gap-3 bg-black dark:bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-widest text-white hover:text-red-400 dark:hover:bg-red-700 transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
             style={{
-              transitionDelay: `${navLinks.length * 100 + 200}ms`,
+              transitionDelay: `${navLinks.length * 80 + 150}ms`,
               transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
               opacity: menuOpen ? 1 : 0,
             }}
@@ -142,8 +147,8 @@ export default function Navbar() {
               <div className="w-[3px] bg-white animate-[soundwave_0.8s_ease-in-out_infinite_alternate]" style={{ animationDelay: '0.4s' }}></div>
               <div className="w-[3px] bg-white animate-[soundwave_1.1s_ease-in-out_infinite_alternate]" style={{ animationDelay: '0.1s' }}></div>
             </div>
-            <span className="font-podium tracking-[0.1em] text-lg">Premium In-Store Audio</span>
-          </button>
+            <span className="font-podium tracking-[0.1em] text-base">Premium In-Store Audio</span>
+          </Link>
 
           <div 
             className="mt-8 flex flex-row flex-wrap justify-end gap-6 pb-8"
