@@ -16,46 +16,50 @@ export default function JokePopups() {
   const [currentJoke, setCurrentJoke] = useState<string | null>(null);
 
   useEffect(() => {
-    // Wait a bit before showing the first one, then show periodically
-    const timer = setTimeout(() => {
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const showNextJoke = () => {
+      const randomJoke = JOKES[Math.floor(Math.random() * JOKES.length)];
+      setCurrentJoke(randomJoke);
+      
+      // Auto hide after 6 seconds
+      hideTimer = setTimeout(() => {
+        setCurrentJoke(null);
+      }, 6000);
+    };
+
+    // Wait 5 seconds before showing the first one, then show periodically every 15s
+    const initialTimer = setTimeout(() => {
       showNextJoke();
-      
-      const interval = setInterval(() => {
-        showNextJoke();
-      }, 15000); // Show a new joke every 15 seconds
-      
-      return () => clearInterval(interval);
-    }, 5000); // Initial 5 second delay
+    }, 5000);
 
-    return () => clearTimeout(timer);
+    const interval = setInterval(() => {
+      showNextJoke();
+    }, 15000);
+
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(interval);
+      if (hideTimer) clearTimeout(hideTimer);
+    };
   }, []);
-
-  const showNextJoke = () => {
-    const randomJoke = JOKES[Math.floor(Math.random() * JOKES.length)];
-    setCurrentJoke(randomJoke);
-    
-    // Auto hide after 6 seconds
-    setTimeout(() => {
-      setCurrentJoke(null);
-    }, 6000);
-  };
 
   if (!currentJoke) return null;
 
   return (
-    <div className="fixed bottom-4 sm:bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-[1000] w-auto sm:w-80 bg-white border border-black/10 shadow-[0_10px_40px_-10px_rgba(220,38,38,0.3)] p-4 sm:p-5 animate-fade-up rounded-sm transition-all duration-500">
+    <div className="fixed bottom-4 sm:bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-[1000] w-auto sm:w-80 bg-white dark:bg-neutral-900 border-2 border-black dark:border-white/20 shadow-[8px_8px_0_0_rgba(220,38,38,1)] shadow-[0_10px_40px_-10px_rgba(220,38,38,0.3)] p-4 sm:p-5 animate-fade-up rounded-sm transition-all duration-500">
       <div className="flex gap-3 sm:gap-4">
         <div className="bg-red-600/10 p-2 sm:p-2.5 h-fit rounded-full shrink-0">
           <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
         </div>
         <div className="flex-1">
           <div className="flex justify-between items-start mb-2">
-            <h4 className="text-black font-podium uppercase tracking-widest text-sm">Truth Alert</h4>
-            <button onClick={() => setCurrentJoke(null)} className="text-black/30 hover:text-black transition-colors -mt-1 -mr-1 p-1">
+            <h4 className="text-black dark:text-white font-podium uppercase tracking-widest text-sm">Truth Alert</h4>
+            <button onClick={() => setCurrentJoke(null)} className="text-black/30 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors -mt-1 -mr-1 p-1">
               <X className="h-4 w-4" />
             </button>
           </div>
-          <p className="text-black/70 text-sm font-inter leading-relaxed">
+          <p className="text-black/70 dark:text-white/70 text-sm font-inter leading-relaxed">
             {currentJoke}
           </p>
         </div>

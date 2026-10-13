@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -30,10 +31,11 @@ function ScrollHandler() {
 
 function App() {
   return (
-    <Router>
-      <ScrollHandler />
-      <div className="bg-black text-white font-inter w-full overflow-x-hidden selection:bg-red-500/30 min-h-screen flex flex-col">
-        <Navbar />
+    <ThemeProvider>
+      <Router>
+        <ScrollHandler />
+        <div className="bg-white dark:bg-black text-black dark:text-white font-inter w-full overflow-x-hidden selection:bg-red-500/30 min-h-screen flex flex-col transition-colors duration-300">
+          <Navbar />
         
         <main className="flex-1">
           <Routes>
@@ -53,6 +55,7 @@ function App() {
         <JokePopups />
       </div>
     </Router>
+  </ThemeProvider>
   );
 }
 

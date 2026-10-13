@@ -32,33 +32,34 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
       ></div>
       
       {/* Modal Content */}
-      <div className="relative bg-neutral-950 border border-white/10 shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col animate-fade-up-delay-1 overflow-hidden">
+      <div className="relative bg-white dark:bg-neutral-950 border-2 border-black dark:border-white/20 shadow-[8px_8px_0_0_rgba(220,38,38,1)] w-full max-w-3xl max-h-[85vh] flex flex-col animate-fade-up-delay-1 overflow-hidden transition-colors duration-300">
         {/* Glow Effects */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-[80px] pointer-events-none"></div>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-6 sm:p-8 border-b border-white/10 relative z-10">
-          <h2 className="font-podium text-2xl sm:text-3xl uppercase tracking-wider text-white">
+        <div className="flex items-center justify-between p-6 sm:p-8 border-b border-black/10 dark:border-white/10 relative z-10">
+          <h2 className="font-podium text-2xl sm:text-3xl uppercase tracking-wider text-black dark:text-white">
             {title}
           </h2>
           <button 
             onClick={onClose}
-            className="p-2 text-white/50 hover:text-red-500 hover:bg-white/5 rounded-full transition-all"
+            aria-label="Close Modal"
+            className="p-2 text-black/50 dark:text-white/50 hover:text-red-600 dark:hover:text-red-500 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-all cursor-pointer"
           >
             <X className="h-6 w-6" />
           </button>
         </div>
         
         {/* Body */}
-        <div className="p-6 sm:p-8 overflow-y-auto relative z-10 font-inter text-sm text-white/70 space-y-6 leading-relaxed flex-1">
+        <div className="p-6 sm:p-8 overflow-y-auto relative z-10 font-inter text-sm text-black/80 dark:text-white/80 space-y-6 leading-relaxed flex-1">
           {children}
         </div>
         
         {/* Footer */}
-        <div className="p-6 border-t border-white/10 relative z-10 flex justify-end bg-black">
+        <div className="p-6 border-t border-black/10 dark:border-white/10 relative z-10 flex justify-end bg-neutral-50 dark:bg-neutral-900">
           <button 
             onClick={onClose}
-            className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white text-sm font-bold uppercase tracking-widest transition-colors"
+            className="px-6 py-3 bg-black dark:bg-red-600 hover:bg-neutral-800 dark:hover:bg-red-700 text-white text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer border-2 border-black dark:border-white/20 shadow-[3px_3px_0_0_rgba(220,38,38,1)]"
           >
             Close
           </button>

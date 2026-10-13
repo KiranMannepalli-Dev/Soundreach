@@ -1,5 +1,11 @@
 @import "tailwindcss";
-@config "../tailwind.config.js";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-podium: "Anton", sans-serif;
+}
 
 @layer utilities {
   @keyframes fade-up {
@@ -175,4 +181,10 @@
 .font-podium {
   font-family: "Anton", sans-serif;
   letter-spacing: 0.02em;
+}
+
+/* Seamless left-to-right photographic image blend (gentle edge feather to preserve full image visibility) */
+.blend-mask-left {
+  mask-image: linear-gradient(to right, transparent 0%, black 15%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%);
 }
