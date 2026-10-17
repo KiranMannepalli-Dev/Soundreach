@@ -1,15 +1,31 @@
 import { useState, useRef } from 'react';
-import { ArrowUpRight, CheckCircle, BarChart3, Users, Store, Mail } from 'lucide-react';
+import { ArrowUpRight, CheckCircle, BarChart3, Users, Store, Mail, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import { submitLeadToSheet } from '../services/sheetService';
 
 export default function Advertisers() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    await submitLeadToSheet({
+      formType: 'Advertisers Page Lead',
+      firstName: (formData.get('firstName') as string) || '',
+      lastName: (formData.get('lastName') as string) || '',
+      email: (formData.get('email') as string) || '',
+      company: (formData.get('company') as string) || '',
+      goals: (formData.get('campaignGoals') as string) || ''
+    });
+
+    setIsSubmitting(false);
     setIsSubmitted(true);
   };
 
@@ -238,9 +254,22 @@ export default function Advertisers() {
               <label htmlFor="adv-goals" className="block text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold mb-1.5 sm:mb-2">Campaign Goals</label>
               <textarea id="adv-goals" name="campaignGoals" rows={3} className="w-full bg-neutral-50 border-2 border-neutral-300 shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-none focus:translate-x-[2px] focus:translate-y-[2px] px-3 sm:px-4 py-2.5 sm:py-3 text-black text-sm focus:outline-none focus:border-red-600 transition-colors resize-none"></textarea>
             </div>
-            <button className="w-full group flex justify-center items-center gap-3 bg-red-600 px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all mt-4 border-2 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
-              SUBMIT INQUIRY
-              <Mail className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:scale-110" />
+            <button 
+              type="submit" 
+              disabled={isSubmitting} 
+              className="w-full group flex justify-center items-center gap-3 bg-red-600 px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all mt-4 border-2 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+                  RECORDING TO SHEET...
+                </>
+              ) : (
+                <>
+                  SUBMIT INQUIRY
+                  <Mail className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:scale-110" />
+                </>
+              )}
             </button>
             </form>
           )}

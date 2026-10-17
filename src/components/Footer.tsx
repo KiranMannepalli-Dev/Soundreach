@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { Mail, Phone, ArrowUpRight, CheckCircle } from 'lucide-react';
+import { Mail, Phone, ArrowUpRight, CheckCircle, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
+import { submitLeadToSheet } from '../services/sheetService';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
 const Footer = () => {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <footer id="contact" className="relative border-t border-black/10 dark:border-white/10 bg-white dark:bg-black pt-10 sm:pt-16 pb-8 overflow-hidden text-black dark:text-white transition-colors duration-300">
@@ -74,10 +76,43 @@ const Footer = () => {
                   <h3 className="font-podium text-lg uppercase tracking-widest text-white mb-2 sm:mb-3">Stay Updated</h3>
                   <p className="text-white/70 text-sm mb-4 md:mb-0 lg:mb-4 font-light leading-relaxed">Subscribe to our newsletter for the latest programmatic audio insights.</p>
                 </div>
-                <form className="flex md:flex-1 md:max-w-md lg:max-w-none" onSubmit={(e) => { e.preventDefault(); setIsSubscribed(true); }}>
-                  <input id="newsletter-email" name="email" type="email" required placeholder="Email Address" autoComplete="email" aria-label="Email Address" className="bg-neutral-900 border-2 border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-[0_0_0_0_rgba(220,38,38,1)] focus:translate-x-[4px] focus:translate-y-[4px] text-white px-4 py-3 w-full focus:outline-none focus:border-red-600 transition-colors text-sm" />
-                  <button type="submit" aria-label="Subscribe" className="bg-red-600 px-5 flex items-center justify-center text-white transition-all border-2 border-white shadow-[4px_4px_0_0_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] z-10 cursor-pointer">
-                    <ArrowUpRight className="h-5 w-5" />
+                <form 
+                  className="flex md:flex-1 md:max-w-md lg:max-w-none" 
+                  onSubmit={async (e) => { 
+                    e.preventDefault(); 
+                    setIsSubmitting(true);
+                    const form = e.currentTarget;
+                    const formData = new FormData(form);
+                    const email = (formData.get('email') as string) || '';
+                    await submitLeadToSheet({
+                      formType: 'Newsletter Subscription',
+                      email
+                    });
+                    setIsSubmitting(false);
+                    setIsSubscribed(true); 
+                  }}
+                >
+                  <input 
+                    id="newsletter-email" 
+                    name="email" 
+                    type="email" 
+                    required 
+                    placeholder="Email Address" 
+                    autoComplete="email" 
+                    aria-label="Email Address" 
+                    className="bg-neutral-900 border-2 border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-[0_0_0_0_rgba(220,38,38,1)] focus:translate-x-[4px] focus:translate-y-[4px] text-white px-4 py-3 w-full focus:outline-none focus:border-red-600 transition-colors text-sm" 
+                  />
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    aria-label="Subscribe" 
+                    className="bg-red-600 px-5 flex items-center justify-center text-white transition-all border-2 border-white shadow-[4px_4px_0_0_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] z-10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <ArrowUpRight className="h-5 w-5" />
+                    )}
                   </button>
                 </form>
               </div>

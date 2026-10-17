@@ -1,13 +1,30 @@
 import { useState } from 'react';
-import { DollarSign, Headphones, Shield, Settings, ArrowUpRight, CheckCircle } from 'lucide-react';
+import { DollarSign, Headphones, Shield, Settings, ArrowUpRight, CheckCircle, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import { submitLeadToSheet } from '../services/sheetService';
 
 export default function Partners() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    await submitLeadToSheet({
+      formType: 'Retail Partner Inquiry',
+      firstName: (formData.get('firstName') as string) || '',
+      lastName: (formData.get('lastName') as string) || '',
+      email: (formData.get('email') as string) || '',
+      businessName: (formData.get('businessName') as string) || '',
+      locationsCount: (formData.get('locationsCount') as string) || '',
+      businessType: (formData.get('businessType') as string) || ''
+    });
+
+    setIsSubmitting(false);
     setIsSubmitted(true);
   };
 
@@ -275,9 +292,22 @@ export default function Partners() {
               </div>
             </div>
 
-            <button className="w-full group flex justify-center items-center gap-3 bg-red-600 px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all mt-6 sm:mt-8 border-2 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
-              REQUEST REVENUE PROJECTION
-              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+            <button 
+              type="submit" 
+              disabled={isSubmitting} 
+              className="w-full group flex justify-center items-center gap-3 bg-red-600 px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all mt-6 sm:mt-8 border-2 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+                  RECORDING TO SHEET...
+                </>
+              ) : (
+                <>
+                  REQUEST REVENUE PROJECTION
+                  <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                </>
+              )}
             </button>
             </form>
           )}
