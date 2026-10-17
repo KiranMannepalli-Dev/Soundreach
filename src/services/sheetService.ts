@@ -17,14 +17,21 @@ const DEFAULT_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxummsQLUX9
 export async function submitLeadToSheet(payload: FormPayload): Promise<{ success: boolean; error?: string }> {
   const url = import.meta.env.VITE_GOOGLE_SHEETS_URL || DEFAULT_WEBHOOK_URL;
 
-  // Format the consolidated fields for the spreadsheet columns
+  // Format the consolidated fields and granular fields for the spreadsheet columns
   const formattedData = {
     formType: payload.formType,
     firstName: payload.firstName || '',
     lastName: payload.lastName || '',
     email: payload.email,
-    company: payload.company || payload.businessName || payload.subject || '',
-    message: payload.message || payload.goals || (payload.locationsCount ? `Locations: ${payload.locationsCount} | Type: ${payload.businessType}` : '')
+    company: payload.company || '',
+    businessName: payload.businessName || '',
+    locationsCount: payload.locationsCount || '',
+    businessType: payload.businessType || '',
+    subject: payload.subject || '',
+    goals: payload.goals || '',
+    message: payload.message || '',
+    combinedCompany: payload.company || payload.businessName || payload.subject || '',
+    combinedMessage: payload.message || payload.goals || (payload.locationsCount ? `Locations: ${payload.locationsCount} | Type: ${payload.businessType}` : '')
   };
 
   try {
