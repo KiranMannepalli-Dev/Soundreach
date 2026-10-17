@@ -58,11 +58,11 @@ export default function Advertisers() {
 
           {/* Mobile: Top-to-bottom soft gradient so text is easily readable and supermarket scene is visible */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/85 to-white/40 dark:from-black/95 dark:via-black/85 dark:to-black/50 md:hidden pointer-events-none z-20 transition-colors duration-300"></div>
-          {/* Desktop: Subtle edge blend */}
-          <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-transparent dark:from-black/30 dark:via-transparent dark:to-transparent pointer-events-none z-20 transition-colors duration-300"></div>
+          {/* Tablet & Desktop: Gradient protecting left side text from photo clutter */}
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent dark:from-black/95 dark:via-black/75 dark:to-transparent lg:from-white/75 lg:via-white/30 lg:dark:from-black/75 lg:dark:via-black/30 pointer-events-none z-20 transition-colors duration-300"></div>
         </div>
         
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-10 lg:px-16">
+        <div className="relative z-10 w-full max-w-7xl 2xl:max-w-[1500px] mx-auto px-4 sm:px-10 lg:px-16">
           <div className="max-w-2xl">
             <h1 className="animate-flip-down font-podium text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tight text-black dark:text-white leading-[0.95] mb-4 sm:mb-6">
               Be Heard <br/><span className="text-red-600">Above the Noise</span>
@@ -90,7 +90,7 @@ export default function Advertisers() {
 
       {/* Why Audio Section */}
       <section className="py-10 sm:py-12 lg:py-24 px-4 sm:px-10 lg:px-16 bg-white dark:bg-black relative">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto">
           <div className="text-center mb-8 sm:mb-16">
             <ScrollReveal animationClass="animate-flip-down">
               <h2 className="font-podium text-3xl sm:text-5xl uppercase tracking-wider text-black dark:text-white">
@@ -102,14 +102,14 @@ export default function Advertisers() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {[
               { title: 'The Checkout Flex', desc: 'Hit customers while they\'re literally holding the product. No scrolling, just buying.', icon: Store, link: '/network', cta: 'Explore Venues' },
               { title: 'Unskippable Vibes', desc: 'Unlike those digital ads getting fast-forwarded, in-store audio can\'t be skipped, blocked, or swiped away. Period.', icon: Users, link: '/platform', cta: 'How Tech Works' },
               { title: 'The Receipts', desc: 'Link those ad plays directly to point-of-sale data to prove the sales lift. We always bring the receipts.', icon: BarChart3, link: '#contact-sales', cta: 'Get Projections' }
             ].map((benefit, i) => (
               benefit.link.startsWith('#') ? (
-                <a key={i} href={benefit.link} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col justify-between cursor-pointer">
+                <a key={i} href={benefit.link} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-6 lg:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col justify-between cursor-pointer">
                   <div>
                     <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
                     <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3 group-hover:text-red-600 transition-colors">{benefit.title}</h3>
@@ -120,7 +120,7 @@ export default function Advertisers() {
                   </span>
                 </a>
               ) : (
-                <Link key={i} to={benefit.link} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col justify-between cursor-pointer">
+                <Link key={i} to={benefit.link} className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-6 lg:p-8 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] group flex flex-col justify-between cursor-pointer">
                   <div>
                     <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-red-600 mb-3 sm:mb-6 group-hover:scale-110 transition-transform" />
                     <h3 className="font-podium text-lg sm:text-xl uppercase text-black mb-1.5 sm:mb-3 group-hover:text-red-600 transition-colors">{benefit.title}</h3>
@@ -138,7 +138,7 @@ export default function Advertisers() {
 
       {/* Stats/Proof Section */}
       <section className="py-8 sm:py-10 lg:py-20 bg-neutral-100 dark:bg-neutral-900/50 border-y border-black/10 dark:border-white/10 px-4 sm:px-10 lg:px-16">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 sm:gap-12">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8 sm:gap-12">
           <div className="w-full md:w-1/2">
             <ScrollReveal animationClass="animate-scale-glow">
               <h2 className="font-podium text-3xl sm:text-5xl uppercase tracking-wider text-black dark:text-white mb-4 sm:mb-6">
@@ -162,17 +162,17 @@ export default function Advertisers() {
             </ul>
           </div>
           <div className="w-full md:w-1/2 grid grid-cols-2 gap-3 sm:gap-4">
-            <a href="#contact-sales" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
+            <a href="#contact-sales" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-6 lg:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
               <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">24%</div>
               <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Avg. Sales Lift</div>
               <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Contact Sales &rarr;</span>
             </a>
-            <Link to="/platform" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
+            <Link to="/platform" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-6 lg:p-8 text-center transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
               <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">78%</div>
               <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Ad Recall</div>
               <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Platform &rarr;</span>
             </Link>
-            <Link to="/network" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-8 text-center col-span-2 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
+            <Link to="/network" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-6 lg:p-8 text-center col-span-2 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
               <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">12M+</div>
               <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Monthly Reach</div>
               <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Explore 5,000+ Venues &rarr;</span>
@@ -249,7 +249,7 @@ export default function Advertisers() {
 
       {/* Retail Partner Cross-Sell Section */}
       <section className="px-4 sm:px-10 lg:px-16 py-10 sm:py-16 bg-neutral-100 dark:bg-neutral-900 border-t border-black/10 dark:border-white/10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 bg-white dark:bg-black p-6 sm:p-10 border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)]">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 bg-white dark:bg-black p-6 sm:p-10 border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)]">
           <div>
             <h3 className="font-podium text-2xl sm:text-3xl uppercase tracking-wider text-black dark:text-white mb-2">
               Are You a Store or Venue Owner?

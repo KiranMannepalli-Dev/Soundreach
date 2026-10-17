@@ -23,7 +23,7 @@ export default function Platform() {
           <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white dark:from-black dark:via-transparent dark:to-black transition-colors duration-300"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 w-full">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto relative z-10 w-full">
           <div className="max-w-3xl">
             <h1 className="animate-blur-reveal font-podium uppercase leading-[0.9] tracking-tight text-black dark:text-white text-5xl sm:text-7xl lg:text-9xl mb-4 sm:mb-6">
               The <span className="bg-gradient-to-r from-red-600 to-rose-700 bg-clip-text text-transparent">Platform</span>
@@ -59,7 +59,7 @@ export default function Platform() {
         {/* Light / Dark Mask - mobile gets a bit more contrast for clear text reading */}
         <div className="absolute inset-0 bg-white/40 dark:bg-black/75 md:bg-white/5 md:dark:bg-black/60 pointer-events-none z-0 transition-colors duration-300" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto relative z-10">
           <div className="text-center mb-6 sm:mb-16">
             <ScrollReveal animationClass="animate-flip-down">
               <h2 className="font-podium text-3xl sm:text-6xl uppercase tracking-wider text-black dark:text-white drop-shadow-[0_2px_12px_rgba(255,255,255,1)] dark:drop-shadow-none">
@@ -68,7 +68,7 @@ export default function Platform() {
             </ScrollReveal>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5 sm:gap-12 relative mb-8 sm:mb-12">
+          <div className="grid md:grid-cols-3 gap-5 sm:gap-6 lg:gap-12 relative mb-8 sm:mb-12">
             {/* Connecting line for desktop */}
             <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-[1px] bg-gradient-to-r from-red-600/0 via-red-600/40 to-red-600/0" />
 
@@ -136,7 +136,7 @@ export default function Platform() {
       {/* Advanced Capabilities */}
       <section className="px-4 sm:px-10 lg:px-16 mb-8 lg:mb-20">
         <div 
-          className="max-w-7xl mx-auto border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-12 lg:p-16 relative overflow-hidden bg-cover bg-center rounded-xl sm:rounded-2xl bg-white dark:bg-neutral-950 transition-colors duration-300"
+          className="max-w-7xl 2xl:max-w-[1500px] mx-auto border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-12 lg:p-16 relative overflow-hidden bg-cover bg-center rounded-xl sm:rounded-2xl bg-white dark:bg-neutral-950 transition-colors duration-300"
         >
           {/* Background image overlay */}
           <div 
@@ -179,7 +179,7 @@ export default function Platform() {
 
       {/* Bottom CTA Banner */}
       <section className="px-4 sm:px-10 lg:px-16 mt-8 sm:mt-12 lg:mt-16">
-        <div className="max-w-7xl mx-auto bg-black text-white border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-6 sm:p-12 lg:p-16 text-center relative overflow-hidden">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto bg-black text-white border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-6 sm:p-12 lg:p-16 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-red-600/10 pointer-events-none"></div>
           <div className="relative z-10 max-w-3xl mx-auto">
             <h2 className="font-podium text-3xl sm:text-5xl lg:text-6xl uppercase tracking-wider mb-4 sm:mb-6">

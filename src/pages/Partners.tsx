@@ -16,7 +16,7 @@ export default function Partners() {
       
       {/* Hero Section */}
       <section className="relative px-4 sm:px-10 lg:px-16 pt-24 sm:pt-28 lg:pt-32 mb-8 sm:mb-10 lg:mb-24">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-16">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-16">
           <div className="flex-1 w-full relative z-10">
             <h1 className="animate-reveal-left font-podium text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tight text-black dark:text-white leading-[0.95] mb-4 sm:mb-6">
               Monetize Your <span className="bg-gradient-to-r from-red-500 to-rose-700 bg-clip-text text-transparent">Space</span>
@@ -87,7 +87,7 @@ export default function Partners() {
 
       {/* Benefits Section */}
       <section className="py-10 sm:py-12 lg:py-24 px-4 sm:px-10 lg:px-16 bg-neutral-100 dark:bg-neutral-900/50 border-y border-black/10 dark:border-white/10 relative">
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto relative z-10">
           <div className="text-center mb-8 sm:mb-16">
             <ScrollReveal animationClass="animate-reveal-left">
               <h2 className="font-podium text-3xl sm:text-5xl uppercase tracking-wider text-black dark:text-white">
@@ -154,7 +154,7 @@ export default function Partners() {
         {/* Light overlay to ensure text readability */}
         <div className="absolute inset-0 bg-white/45 dark:bg-black/80 z-10"></div>
 
-        <div className="max-w-7xl mx-auto relative z-20">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto relative z-20">
           <div className="max-w-3xl">
             <ScrollReveal animationClass="animate-blur-reveal">
               <h2 className="font-podium text-3xl sm:text-5xl uppercase tracking-wider text-black dark:text-white mb-4 sm:mb-6">

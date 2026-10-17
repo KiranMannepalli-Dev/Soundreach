@@ -18,7 +18,7 @@ export default function Contact() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-900/10 rounded-full blur-[100px] pointer-events-none"></div>
         
-        <div className="max-w-7xl mx-auto text-center relative z-10">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto text-center relative z-10">
           <h1 className="animate-scale-glow font-podium uppercase leading-[0.9] tracking-tight text-black dark:text-white text-5xl sm:text-7xl lg:text-9xl mb-4 sm:mb-6">
             Hit Us <span className="bg-gradient-to-r from-red-500 to-rose-700 bg-clip-text text-transparent">Up</span>
           </h1>
@@ -41,7 +41,7 @@ export default function Contact() {
 
       {/* Main Content Area */}
       <section className="px-4 sm:px-10 lg:px-16 mb-8 sm:mb-10 lg:mb-24 relative z-10">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16">
           
           {/* Left Column: Form */}
           <div>

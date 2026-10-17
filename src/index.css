@@ -7,6 +7,14 @@
   --font-podium: "Anton", sans-serif;
 }
 
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
 @layer utilities {
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(30px); }

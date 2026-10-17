@@ -34,7 +34,7 @@ function App() {
     <ThemeProvider>
       <Router>
         <ScrollHandler />
-        <div className="bg-white dark:bg-black text-black dark:text-white font-inter w-full overflow-x-hidden selection:bg-red-500/30 min-h-screen flex flex-col transition-colors duration-300">
+        <div className="bg-white dark:bg-black text-black dark:text-white font-inter w-full overflow-x-hidden selection:bg-red-500/30 min-h-screen flex flex-col transition-colors duration-300 antialiased">
           <Navbar />
         
         <main className="flex-1">

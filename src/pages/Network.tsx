@@ -8,7 +8,7 @@ export default function Network() {
       
       {/* Network Header */}
       <section className="relative px-4 sm:px-10 lg:px-16 pt-24 sm:pt-28 lg:pt-32 mb-6 sm:mb-8 lg:mb-20">
-        <div className="max-w-7xl mx-auto text-center relative z-10">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto text-center relative z-10">
           <h1 className="animate-tracking-in font-podium uppercase leading-[0.9] tracking-tight text-black dark:text-white text-5xl sm:text-7xl lg:text-9xl mb-4 sm:mb-6">
             Our <span className="bg-gradient-to-r from-red-600 to-rose-700 bg-clip-text text-transparent">Network</span>
           </h1>
@@ -36,7 +36,7 @@ export default function Network() {
 
       {/* Stats Grid */}
       <section className="px-4 sm:px-10 lg:px-16 mb-8 sm:mb-10 lg:mb-24">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
               { label: 'Monthly Reach', value: '12M+', href: '/advertisers' },
@@ -62,7 +62,7 @@ export default function Network() {
 
       {/* Venue Types */}
       <section className="px-4 sm:px-10 lg:px-16">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto">
           <ScrollReveal animationClass="animate-tracking-in">
             <h2 className="font-podium text-3xl sm:text-5xl uppercase tracking-wider text-black dark:text-white mb-6 sm:mb-12 border-b border-black/10 dark:border-white/10 pb-4 sm:pb-6">
               Where We Play
@@ -133,7 +133,7 @@ export default function Network() {
 
       {/* Bottom Network CTA */}
       <section className="mt-12 sm:mt-20 px-4 sm:px-10 lg:px-16">
-        <div className="max-w-7xl mx-auto bg-black text-white dark:bg-neutral-900 border-2 border-black dark:border-white/20 shadow-[6px_6px_0_0_rgba(220,38,38,1)] p-6 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 rounded-xl">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto bg-black text-white dark:bg-neutral-900 border-2 border-black dark:border-white/20 shadow-[6px_6px_0_0_rgba(220,38,38,1)] p-6 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 rounded-xl">
           <div>
             <h2 className="font-podium text-2xl sm:text-4xl uppercase tracking-wider text-white">
               Ready to broadcast across our network?

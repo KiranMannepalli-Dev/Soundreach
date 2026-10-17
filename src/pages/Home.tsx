@@ -27,7 +27,7 @@ function MassiveScaleSection() {
       onMouseLeave={handleMouseLeave}
     >
       <audio ref={audioRef} src="/advertisement.mp3" preload="auto" />
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto">
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-12 mb-8 sm:mb-10 lg:mb-16">
           <div className="flex-1 w-full flex justify-center lg:justify-start relative">
             <div className="absolute inset-0 bg-red-600/10 blur-[80px] rounded-full scale-75 pointer-events-none"></div>
@@ -70,7 +70,7 @@ function MassiveScaleSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
           {[
             { icon: Store, name: 'Grocery & Retail', count: '2,400+ locations', bgImage: '/Grocery&Retail.png' },
             { icon: Users, name: 'Fitness Centers', count: '1,200+ locations', bgImage: '/Fitness Centers.png' },
@@ -80,7 +80,7 @@ function MassiveScaleSection() {
             <Link 
               key={i} 
               to="/network"
-              className={`group p-2.5 sm:p-6 flex flex-col justify-end min-h-[160px] sm:min-h-[220px] border border-black/10 dark:border-white/20 shadow-md sm:shadow-lg hover:shadow-[0_0_30px_rgba(220,38,38,0.15)] hover:-translate-y-1 transition-all duration-300 cursor-pointer rounded-xl relative z-20 overflow-hidden ${!venue.bgImage ? 'bg-neutral-100 dark:bg-neutral-900' : 'bg-cover bg-center'}`}
+              className={`group p-2.5 sm:p-5 lg:p-6 flex flex-col justify-end min-h-[160px] sm:min-h-[200px] lg:min-h-[220px] border border-black/10 dark:border-white/20 shadow-md sm:shadow-lg hover:shadow-[0_0_30px_rgba(220,38,38,0.15)] hover:-translate-y-1 transition-all duration-300 cursor-pointer rounded-xl relative z-20 overflow-hidden ${!venue.bgImage ? 'bg-neutral-100 dark:bg-neutral-900' : 'bg-cover bg-center'}`}
               style={venue.bgImage ? { backgroundImage: `url('${venue.bgImage}')` } : {}}
             >
               <div className={venue.bgImage ? "bg-white text-black p-2 sm:p-3 rounded-lg border-2 border-black shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] transform -rotate-1 sm:-rotate-2 group-hover:rotate-0 sm:group-hover:rotate-1 group-hover:scale-105 transition-all duration-300 w-full sm:w-fit" : ""}>
@@ -146,11 +146,11 @@ function CTASection() {
 
         {/* Mobile: Top-to-bottom soft gradient so text is easily readable and supermarket scene is visible */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/85 to-white/40 dark:from-black/95 dark:via-black/85 dark:to-black/50 md:hidden pointer-events-none z-20 transition-colors duration-300"></div>
-        {/* Desktop: Subtle edge blend */}
-        <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-transparent dark:from-black/30 dark:via-transparent dark:to-transparent pointer-events-none z-20 transition-colors duration-300"></div>
+        {/* Tablet & Desktop: Gradient protecting left side text from photo clutter */}
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent dark:from-black/95 dark:via-black/75 dark:to-transparent lg:from-white/75 lg:via-white/30 lg:dark:from-black/75 lg:dark:via-black/30 pointer-events-none z-20 transition-colors duration-300"></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto">
+      <div className="relative z-10 w-full max-w-7xl 2xl:max-w-[1500px] mx-auto">
         <div className="max-w-2xl">
           <ScrollReveal animationClass="animate-reveal-left">
             <h2 className="font-podium text-3xl sm:text-6xl lg:text-8xl uppercase tracking-tight text-black dark:text-white leading-[0.95] mb-3 sm:mb-6">
@@ -199,8 +199,8 @@ export default function Home() {
         <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-red-600/10 blur-[150px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-rose-500/10 blur-[120px]" />
 
-        {/* Hero Content */}
-        <div className="relative z-30 flex w-full flex-col lg:flex-row items-center justify-between px-4 sm:px-10 lg:px-16 gap-8 lg:gap-12 min-h-0 lg:min-h-[calc(100vh-100px)]">
+        {/* Hero Content (Centered with max-width on Mac displays) */}
+        <div className="relative z-30 flex w-full max-w-7xl 2xl:max-w-[1500px] mx-auto flex-col lg:flex-row items-center justify-between px-4 sm:px-10 lg:px-16 2xl:px-8 gap-8 lg:gap-12 min-h-0 lg:min-h-[calc(100vh-100px)]">
 
           {/* Left Column: Text */}
           <div className="flex flex-col flex-1 w-full pt-4 sm:pt-8 lg:pt-0 max-w-2xl">
@@ -263,7 +263,7 @@ export default function Home() {
         {/* Light / Dark Mask - mobile gets a bit more contrast for clear text reading */}
         <div className="absolute inset-0 bg-white/40 dark:bg-black/75 md:bg-white/5 md:dark:bg-black/60 pointer-events-none z-0 transition-colors duration-300" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto relative z-10">
           <div className="text-center mb-6 sm:mb-16 lg:mb-20">
             <ScrollReveal animationClass="animate-blur-reveal">
               <h2 className="font-podium text-3xl sm:text-6xl lg:text-8xl uppercase tracking-tight text-black dark:text-white drop-shadow-[0_2px_12px_rgba(255,255,255,1)] dark:drop-shadow-none">

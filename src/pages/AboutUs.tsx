@@ -8,7 +8,7 @@ export default function AboutUs() {
       
       {/* Header Section */}
       <section className="relative px-4 sm:px-10 lg:px-16 pt-24 sm:pt-28 lg:pt-32 mb-6 sm:mb-8 lg:mb-20 min-h-0 flex flex-col justify-center">
-        <div className="max-w-7xl mx-auto relative z-10 w-full text-center">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto relative z-10 w-full text-center">
           <ScrollReveal animationClass="animate-tracking-in">
             <h1 className="font-podium text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tight text-black dark:text-white mb-4 sm:mb-6">
               Who Are <span className="bg-gradient-to-r from-red-600 to-rose-800 bg-clip-text text-transparent">We?</span>
@@ -41,7 +41,7 @@ export default function AboutUs() {
         <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-red-800/10 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-rose-900/10 blur-[100px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 relative z-10">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 relative z-10">
           <div className="flex flex-col gap-6 sm:gap-10">
             <ScrollReveal animationClass="animate-reveal-left">
               <h2 className="font-podium text-2xl sm:text-4xl uppercase text-black dark:text-white mb-3 sm:mb-4 flex items-center gap-3">
@@ -74,7 +74,7 @@ export default function AboutUs() {
 
       {/* Our Vibe (White UI Neo-brutalist Card) */}
       <section className="px-4 sm:px-10 lg:px-16 mb-8 sm:mb-10 lg:mb-24">
-        <div className="max-w-7xl mx-auto bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-12 lg:p-16 relative overflow-hidden">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-12 lg:p-16 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-[100px] pointer-events-none"></div>
           
           <ScrollReveal animationClass="animate-scale-glow">
@@ -83,7 +83,7 @@ export default function AboutUs() {
             </h2>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-3 gap-4 sm:gap-8 relative z-10">
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 relative z-10">
             {[
               { title: 'No Cap.', desc: 'Total transparency with our advertisers and partners. We keep it 100.', link: '/advertisers', cta: 'Advertiser Model' },
               { title: 'Always Cooking.', desc: 'Constantly innovating new ways to grab attention through sound.', link: '/platform', cta: 'Platform Tech' },
@@ -109,7 +109,7 @@ export default function AboutUs() {
 
       {/* Founders Section */}
       <section className="px-4 sm:px-10 lg:px-16 mb-10 sm:mb-16">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto">
           <ScrollReveal animationClass="animate-fade-up">
             <h2 className="font-podium text-3xl sm:text-5xl lg:text-6xl uppercase tracking-wider text-black dark:text-white mb-6 sm:mb-12 text-center border-b border-black/10 dark:border-white/10 pb-4 sm:pb-6">
               The <span className="text-red-600">Founder</span>

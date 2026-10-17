@@ -33,35 +33,35 @@ export default function Navbar() {
           scrolled ? 'py-4' : 'py-6'
         }`}
       >
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between">
+        <div className="max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-8 xl:px-10 2xl:px-16 flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="font-podium text-3xl sm:text-4xl font-bold uppercase tracking-wider text-black dark:text-white flex items-center gap-2 group cursor-pointer">
-            <img src="/icon.png" alt="YedZ Media Logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain" />
+          <Link to="/" className="font-podium text-3xl sm:text-4xl 2xl:text-5xl font-bold uppercase tracking-wider text-black dark:text-white flex items-center gap-2 group cursor-pointer shrink-0">
+            <img src="/icon.png" alt="YedZ Media Logo" className="h-10 w-10 sm:h-12 sm:w-12 2xl:h-14 2xl:w-14 object-contain" />
             <span>
               YedZ <span className="text-red-600">MEDIA</span>
             </span>
           </Link>
           
-          {/* Desktop Nav Tabs */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-8">
+          {/* Desktop Nav Tabs (Optimized for MacBooks xl: 1280px-1440px and Mac displays 2xl: 1536px+) */}
+          <div className="hidden xl:flex items-center gap-4 xl:gap-5 2xl:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className="relative text-base lg:text-lg font-podium tracking-[0.08em] uppercase text-black dark:text-white/80 transition-colors hover:text-red-600 dark:hover:text-red-500 group"
+                className="relative text-sm xl:text-base 2xl:text-lg font-podium tracking-[0.08em] uppercase text-black dark:text-white/80 transition-colors hover:text-red-600 dark:hover:text-red-500 group whitespace-nowrap"
               >
                 {link.name}
               </Link>
             ))}
           </div>
           
-          {/* Actions: Theme Toggle + CTA Button */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Actions for Desktop xl+: Theme Toggle + Full CTA Button */}
+          <div className="hidden xl:flex items-center gap-3.5 2xl:gap-4 shrink-0">
             <ThemeToggle showLabel={false} />
             <Link 
               to="/advertisers"
-              className="group flex items-center gap-3 bg-red-600 px-5 lg:px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer overflow-hidden relative"
+              className="group flex items-center gap-2.5 2xl:gap-3 bg-red-600 px-4 xl:px-5 2xl:px-6 py-2.5 2xl:py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer overflow-hidden relative whitespace-nowrap"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-600/30 to-red-600/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
               <div className="flex items-end gap-[2px] h-3 relative z-10">
@@ -70,13 +70,19 @@ export default function Navbar() {
                 <div className="w-[3px] bg-white group-hover:bg-red-100 transition-colors animate-[soundwave_0.8s_ease-in-out_infinite_alternate]" style={{ animationDelay: '0.4s' }}></div>
                 <div className="w-[3px] bg-white group-hover:bg-red-100 transition-colors animate-[soundwave_1.1s_ease-in-out_infinite_alternate]" style={{ animationDelay: '0.1s' }}></div>
               </div>
-              <span className="relative z-10 font-podium tracking-[0.1em] text-base lg:text-lg">Premium In-Store Audio</span>
+              <span className="relative z-10 font-podium tracking-[0.1em] text-sm xl:text-base 2xl:text-lg">Premium In-Store Audio</span>
             </Link>
           </div>
 
-          {/* Mobile Actions: Theme Toggle + Hamburger */}
-          <div className="md:hidden flex items-center gap-3">
-            <ThemeToggle />
+          {/* Mobile & Tablet Actions (< xl): Compact CTA + Theme Toggle + Hamburger */}
+          <div className="xl:hidden flex items-center gap-2.5 sm:gap-3">
+            <Link 
+              to="/advertisers"
+              className="hidden sm:inline-flex items-center gap-1.5 bg-red-600 px-3.5 py-2 text-[11px] font-bold uppercase tracking-wider text-white border-2 border-black dark:border-white shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+            >
+              <span>Start Campaign</span>
+            </Link>
+            <ThemeToggle showLabel={false} />
             <button
               className="flex flex-col items-end space-y-1.5 z-50 p-2 cursor-pointer group"
               onClick={() => setMenuOpen(true)}

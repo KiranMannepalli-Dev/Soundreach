@@ -11,7 +11,7 @@ const Footer = () => {
 
   return (
     <footer id="contact" className="relative border-t border-black/10 dark:border-white/10 bg-white dark:bg-black pt-10 sm:pt-16 pb-8 overflow-hidden text-black dark:text-white transition-colors duration-300">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-10 lg:px-16">
+      <div className="relative z-10 max-w-7xl 2xl:max-w-[1500px] mx-auto px-4 sm:px-10 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16">
 
           {/* Column 1: Brand & Contact */}
@@ -61,7 +61,7 @@ const Footer = () => {
           </div>
 
           {/* Column 4: Newsletter */}
-          <div className="bg-black text-white p-5 sm:p-6 border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)]">
+          <div className="bg-black text-white p-5 sm:p-6 border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] md:col-span-2 lg:col-span-1">
             {isSubscribed ? (
               <div className="flex flex-col items-center justify-center text-center space-y-3 py-4 min-h-[140px]">
                 <CheckCircle className="h-8 w-8 text-red-500" />
@@ -69,16 +69,18 @@ const Footer = () => {
                 <p className="text-white/70 text-xs">You're on the list for the latest updates.</p>
               </div>
             ) : (
-              <>
-                <h3 className="font-podium text-lg uppercase tracking-widest text-white mb-3">Stay Updated</h3>
-                <p className="text-white/70 text-sm mb-4 font-light leading-relaxed">Subscribe to our newsletter for the latest programmatic audio insights.</p>
-                <form className="flex" onSubmit={(e) => { e.preventDefault(); setIsSubscribed(true); }}>
+              <div className="md:flex md:items-center md:justify-between md:gap-8 lg:block">
+                <div className="md:max-w-md lg:max-w-none">
+                  <h3 className="font-podium text-lg uppercase tracking-widest text-white mb-2 sm:mb-3">Stay Updated</h3>
+                  <p className="text-white/70 text-sm mb-4 md:mb-0 lg:mb-4 font-light leading-relaxed">Subscribe to our newsletter for the latest programmatic audio insights.</p>
+                </div>
+                <form className="flex md:flex-1 md:max-w-md lg:max-w-none" onSubmit={(e) => { e.preventDefault(); setIsSubscribed(true); }}>
                   <input id="newsletter-email" name="email" type="email" required placeholder="Email Address" autoComplete="email" aria-label="Email Address" className="bg-neutral-900 border-2 border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-[0_0_0_0_rgba(220,38,38,1)] focus:translate-x-[4px] focus:translate-y-[4px] text-white px-4 py-3 w-full focus:outline-none focus:border-red-600 transition-colors text-sm" />
                   <button type="submit" aria-label="Subscribe" className="bg-red-600 px-5 flex items-center justify-center text-white transition-all border-2 border-white shadow-[4px_4px_0_0_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] z-10 cursor-pointer">
                     <ArrowUpRight className="h-5 w-5" />
                   </button>
                 </form>
-              </>
+              </div>
             )}
           </div>
 
