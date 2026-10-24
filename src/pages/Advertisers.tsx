@@ -1,14 +1,23 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowUpRight, CheckCircle, BarChart3, Users, Store, Mail, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import { submitLeadToSheet } from '../services/sheetService';
+import { adminDataService } from '../services/adminDataService';
 
 export default function Advertisers() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [stats, setStats] = useState(() => adminDataService.getNetworkStats());
+
+  useEffect(() => {
+    const unsub = adminDataService.subscribe(() => {
+      setStats(adminDataService.getNetworkStats());
+    });
+    return unsub;
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -93,7 +102,7 @@ export default function Advertisers() {
                 <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
               </a>
               <Link to="/network" className="group inline-flex justify-center items-center gap-3 bg-white dark:bg-black text-black dark:text-white px-6 py-4 sm:px-8 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-widest transition-all border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer">
-                SEE 5,000+ VENUES
+                {stats.hasVenues ? `SEE ${stats.totalVenues.toLocaleString()} VENUES` : 'EXPLORE VENUE NETWORK'}
                 <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
               </Link>
             </div>
@@ -189,9 +198,13 @@ export default function Advertisers() {
               <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Platform &rarr;</span>
             </Link>
             <Link to="/network" className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-4 sm:p-6 lg:p-8 text-center col-span-2 transition-all duration-300 hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] cursor-pointer group block">
-              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">12M+</div>
-              <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Monthly Reach</div>
-              <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">Explore 5,000+ Venues &rarr;</span>
+              <div className="font-podium text-3xl sm:text-5xl text-red-600 mb-1 sm:mb-2 group-hover:scale-105 transition-transform">
+                {stats.hasVenues ? stats.reachDisplay : 'Live'}
+              </div>
+              <div className="text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold">Monthly In-Store Reach</div>
+              <span className="text-[10px] text-red-600 font-bold uppercase mt-1 inline-block group-hover:underline">
+                {stats.hasVenues ? `Explore ${stats.totalVenues.toLocaleString()} Venues` : 'Explore Venue Network'} &rarr;
+              </span>
             </Link>
           </div>
         </div>

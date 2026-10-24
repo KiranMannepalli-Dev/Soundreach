@@ -1,11 +1,21 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowUpRight, CheckCircle, MapPin, Users, Building2, Store, MessageSquare, Wand2, Radio } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import { adminDataService } from '../services/adminDataService';
 
 function MassiveScaleSection() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [stats, setStats] = useState(() => adminDataService.getNetworkStats());
+
+  useEffect(() => {
+    const handleDataChange = () => {
+      setStats(adminDataService.getNetworkStats());
+    };
+    window.addEventListener('yedz_admin_data_change', handleDataChange);
+    return () => window.removeEventListener('yedz_admin_data_change', handleDataChange);
+  }, []);
 
   const handleMouseEnter = () => {
     setIsPlaying(true);
@@ -17,6 +27,12 @@ function MassiveScaleSection() {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
+  };
+
+  const formatReach = (footfall: number) => {
+    if (footfall >= 1000000) return `${(footfall / 1000000).toFixed(1)}M+`;
+    if (footfall >= 1000) return `${(footfall / 1000).toFixed(0)}k+`;
+    return `${footfall}`;
   };
 
   return (
@@ -54,16 +70,20 @@ function MassiveScaleSection() {
               </h2>
             </ScrollReveal>
             <p className="mt-3 sm:mt-6 text-black/70 dark:text-white/70 font-inter max-w-xl leading-relaxed text-xs sm:text-base">
-              We're taking over thousands of retail spots, gyms, and cafes. This is your ultimate cheat code to live rent-free in your audience's mind while they shop, vibe, and live their best life.
+              Targeted audio across retail spots, gyms, and convenience stores. Live rent-free in your audience's mind while they shop, browse, and spend.
             </p>
 
             <Link to="/network" className="inline-flex gap-8 sm:gap-16 mt-5 sm:mt-10 group cursor-pointer">
               <div>
-                <div className="font-podium text-4xl sm:text-7xl text-red-600 group-hover:scale-105 transition-transform origin-left">12M+</div>
+                <div className="font-podium text-4xl sm:text-7xl text-red-600 group-hover:scale-105 transition-transform origin-left">
+                  {stats.hasVenues ? formatReach(stats.totalFootfall) : '0'}
+                </div>
                 <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 mt-1 sm:mt-2 font-semibold">Monthly Reach &rarr;</div>
               </div>
               <div>
-                <div className="font-podium text-4xl sm:text-7xl text-red-600 group-hover:scale-105 transition-transform origin-left">5K+</div>
+                <div className="font-podium text-4xl sm:text-7xl text-red-600 group-hover:scale-105 transition-transform origin-left">
+                  {stats.hasVenues ? `${stats.totalVenues}` : '0'}
+                </div>
                 <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 mt-1 sm:mt-2 font-semibold">Venues &rarr;</div>
               </div>
             </Link>
@@ -72,10 +92,10 @@ function MassiveScaleSection() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
           {[
-            { icon: Store, name: 'Grocery & Retail', count: '2,400+ locations', bgImage: '/Grocery&Retail.png' },
-            { icon: Users, name: 'Fitness Centers', count: '1,200+ locations', bgImage: '/Fitness Centers.png' },
-            { icon: Building2, name: 'Malls & Plazas', count: '800+ locations', bgImage: '/Malls.png' },
-            { icon: MapPin, name: 'Convenience', count: '1,600+ locations', bgImage: '/Futuristic Neon 24_7 Convenience Store.png' }
+            { icon: Store, name: 'Grocery & Retail', count: `${stats.categoryCounts['Grocery & Supermarket'] || 0} locations`, bgImage: '/Grocery&Retail.png' },
+            { icon: Users, name: 'Fitness Centers', count: `${stats.categoryCounts['Fitness Center'] || 0} locations`, bgImage: '/Fitness Centers.png' },
+            { icon: Building2, name: 'Malls & Plazas', count: `${stats.categoryCounts['Shopping Mall'] || 0} locations`, bgImage: '/Malls.png' },
+            { icon: MapPin, name: 'Convenience', count: `${stats.categoryCounts['Convenience Store'] || 0} locations`, bgImage: '/Futuristic Neon 24_7 Convenience Store.png' }
           ].map((venue, i) => (
             <Link 
               key={i} 
@@ -96,7 +116,7 @@ function MassiveScaleSection() {
             to="/network"
             className="inline-flex items-center gap-3 bg-red-600 px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
           >
-            EXPLORE ALL 5,000+ VENUES
+            {stats.hasVenues ? `EXPLORE ALL ${stats.totalVenues} VENUES` : 'EXPLORE NETWORK FOOTPRINT'}
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>

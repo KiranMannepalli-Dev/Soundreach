@@ -1,8 +1,18 @@
+import { useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import { adminDataService } from '../services/adminDataService';
 
 export default function AboutUs() {
+  const [stats, setStats] = useState(() => adminDataService.getNetworkStats());
+
+  useEffect(() => {
+    const unsub = adminDataService.subscribe(() => {
+      setStats(adminDataService.getNetworkStats());
+    });
+    return unsub;
+  }, []);
   return (
     <div className="pb-10 lg:pb-20 overflow-hidden bg-white dark:bg-black text-black dark:text-white min-h-screen transition-colors duration-300">
       
@@ -65,7 +75,7 @@ export default function AboutUs() {
                 Our mission is simple: to make in-store audio slap. We want to help brands connect with their audiences in the physical world with the same precision and vibe they expect online. We're turning every grocery aisle, gym, and convenience store into a premium audio channel.
               </p>
               <Link to="/network" className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-red-600 hover:underline">
-                See Our 5,000+ Partner Footprint &rarr;
+                {stats.hasVenues ? `See Our ${stats.totalVenues.toLocaleString()} Partner Footprint` : 'See Our Partner Footprint'} &rarr;
               </Link>
             </ScrollReveal>
           </div>

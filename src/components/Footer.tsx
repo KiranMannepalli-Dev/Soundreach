@@ -58,6 +58,7 @@ const Footer = () => {
                 <li><button onClick={() => setActiveModal('terms')} className="text-black/60 dark:text-white/60 hover:text-red-600 dark:hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold cursor-pointer text-left">Terms of Service</button></li>
                 <li><button onClick={() => setActiveModal('cookie')} className="text-black/60 dark:text-white/60 hover:text-red-600 dark:hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold cursor-pointer text-left">Cookie Policy</button></li>
                 <li><button onClick={() => setActiveModal('guidelines')} className="text-black/60 dark:text-white/60 hover:text-red-600 dark:hover:text-red-500 transition-colors text-sm uppercase tracking-wider font-bold cursor-pointer text-left">Ad Guidelines</button></li>
+                <li><Link to="/admin" className="text-red-600 dark:text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors text-sm uppercase tracking-wider font-bold inline-flex items-center gap-1">Admin Portal &rarr;</Link></li>
               </ul>
             </div>
           </div>

@@ -1,8 +1,35 @@
-import { ArrowUpRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowUpRight, Store, MapPin, Radio } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import { adminDataService, type AdminVenue } from '../services/adminDataService';
 
 export default function Network() {
+  const [venues, setVenues] = useState<AdminVenue[]>(() => adminDataService.getVenues());
+  const [stats, setStats] = useState(() => adminDataService.getNetworkStats());
+
+  useEffect(() => {
+    const handleDataChange = () => {
+      setVenues(adminDataService.getVenues());
+      setStats(adminDataService.getNetworkStats());
+    };
+    window.addEventListener('yedz_admin_data_change', handleDataChange);
+    return () => window.removeEventListener('yedz_admin_data_change', handleDataChange);
+  }, []);
+
+  const formatReach = (footfall: number) => {
+    if (footfall >= 1000000) return `${(footfall / 1000000).toFixed(1)}M+`;
+    if (footfall >= 1000) return `${(footfall / 1000).toFixed(0)}k+`;
+    return `${footfall}`;
+  };
+
+  const getCategoryCountDisplay = (categoryName: string) => {
+    const count = stats.categoryCounts[categoryName] || 0;
+    if (count === 0) return '0 Locations';
+    if (count === 1) return '1 Location';
+    return `${count} Locations`;
+  };
+
   return (
     <div className="pb-10 lg:pb-20 bg-white dark:bg-black text-black dark:text-white min-h-screen transition-colors duration-300">
       
@@ -13,7 +40,7 @@ export default function Network() {
             Our <span className="bg-gradient-to-r from-red-600 to-rose-700 bg-clip-text text-transparent">Network</span>
           </h1>
           <p className="max-w-2xl mx-auto font-inter text-sm sm:text-lg text-black/70 dark:text-white/70 font-normal leading-relaxed">
-            Hit millions of shoppers the exact second they're ready to swipe. We're locked in with the biggest retail chains nationwide. It's giving scale.
+            Hit shoppers the exact second they're ready to swipe. Broadcast targeted commercial audio across retail chains nationwide.
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -34,15 +61,31 @@ export default function Network() {
         </div>
       </section>
 
-      {/* Stats Grid */}
+      {/* Dynamic Stats Grid */}
       <section className="px-4 sm:px-10 lg:px-16 mb-8 sm:mb-10 lg:mb-24">
         <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
-              { label: 'Monthly Reach', value: '12M+', href: '/advertisers' },
-              { label: 'Active Venues', value: '5,000+', href: '/partners' },
-              { label: 'Top Markets', value: '50+', href: '/platform' },
-              { label: 'Brand Lift', value: '24%', href: '/advertisers' }
+              { 
+                label: 'Active Locations', 
+                value: stats.hasVenues ? `${stats.totalVenues}` : '0', 
+                href: '/partners' 
+              },
+              { 
+                label: 'Monthly Footfall', 
+                value: stats.hasVenues ? formatReach(stats.totalFootfall) : '0', 
+                href: '/advertisers' 
+              },
+              { 
+                label: 'Hardware Receivers', 
+                value: stats.hasVenues ? `${stats.onlineVenues} Live` : '0 Live', 
+                href: '/platform' 
+              },
+              { 
+                label: 'Speakers Managed', 
+                value: stats.hasVenues ? `${stats.totalSpeakers}` : '0 Units', 
+                href: '/partners' 
+              }
             ].map((stat, i) => (
               <Link 
                 key={i} 
@@ -60,39 +103,49 @@ export default function Network() {
         </div>
       </section>
 
-      {/* Venue Types */}
+      {/* Dynamic Venue Channels */}
       <section className="px-4 sm:px-10 lg:px-16">
         <div className="max-w-7xl 2xl:max-w-[1500px] mx-auto">
           <ScrollReveal animationClass="animate-tracking-in">
-            <h2 className="font-podium text-3xl sm:text-5xl uppercase tracking-wider text-black dark:text-white mb-6 sm:mb-12 border-b border-black/10 dark:border-white/10 pb-4 sm:pb-6">
-              Where We Play
-            </h2>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-12 border-b border-black/10 dark:border-white/10 pb-4 sm:pb-6">
+              <div>
+                <h2 className="font-podium text-3xl sm:text-5xl uppercase tracking-wider text-black dark:text-white">
+                  Where We Play
+                </h2>
+                <p className="text-xs sm:text-sm text-black/60 dark:text-white/60 mt-1">
+                  Targeted audio broadcast channels across retail environments
+                </p>
+              </div>
+              <span className="text-xs font-mono font-bold text-red-600 uppercase">
+                {stats.totalVenues} Total Network Locations
+              </span>
+            </div>
           </ScrollReveal>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
               { 
+                categoryKey: 'Grocery & Supermarket',
                 title: 'Grocery & Supermarkets', 
-                count: '2,400+ Locations',
-                desc: "Hit shoppers right as they're grabbing snacks in the aisle.", 
+                desc: "Hit shoppers right as they're grabbing products in the aisle.", 
                 bgImage: '/Grocery&Retail.png' 
               },
               { 
+                categoryKey: 'Fitness Center',
                 title: 'Fitness Centers', 
-                count: '1,200+ Locations',
-                desc: 'Max energy zones. Perfect for flexing health and wellness brands.', 
+                desc: 'Max energy zones. Perfect for health, fitness and nutrition brands.', 
                 bgImage: '/Fitness Centers.png' 
               },
               { 
+                categoryKey: 'Convenience Store',
                 title: 'Convenience Stores', 
-                count: '1,600+ Locations',
-                desc: 'Catch the on-the-go crowd when they need it like, yesterday.', 
+                desc: 'Catch high-frequency on-the-go shoppers 24/7.', 
                 bgImage: '/Futuristic Neon 24_7 Convenience Store.png' 
               },
               { 
+                categoryKey: 'Shopping Mall',
                 title: 'Shopping Malls', 
-                count: '800+ Locations',
-                desc: "Vibe with shoppers when they're already in full spending mode.", 
+                desc: "Reach consumers actively browsing in high-spending retail mode.", 
                 bgImage: '/Malls.png' 
               }
             ].map((venue, i) => (
@@ -101,20 +154,17 @@ export default function Network() {
                 to="/advertisers"
                 className="group relative flex flex-col justify-end min-h-[200px] sm:min-h-[300px] lg:min-h-[320px] p-3 sm:p-5 border-2 border-black dark:border-white/20 shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] hover:shadow-[2px_2px_0_0_rgba(220,38,38,1)] hover:translate-x-[4px] hover:translate-y-[4px] sm:hover:translate-x-[6px] sm:hover:translate-y-[6px] transition-all duration-300 cursor-pointer rounded-xl overflow-hidden bg-black block"
               >
-                {/* Background image with hover zoom */}
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 opacity-75 group-hover:opacity-90"
                   style={{ backgroundImage: `url('${venue.bgImage}')` }}
                 />
                 
-                {/* Dark gradient overlay for text readability */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20 pointer-events-none" />
 
-                {/* Bottom Content Badge */}
                 <div className="relative z-10 w-full">
                   <div className="bg-white text-black p-2.5 sm:p-4 rounded-lg border-2 border-black shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] transform -rotate-1 group-hover:rotate-0 group-hover:scale-[1.02] transition-all duration-300">
                     <div className="text-red-600 font-bold uppercase tracking-widest text-[8px] sm:text-[10px] mb-0.5 sm:mb-1">
-                      {venue.count}
+                      {getCategoryCountDisplay(venue.categoryKey)}
                     </div>
                     <h3 className="font-podium text-sm sm:text-lg xl:text-xl uppercase tracking-tight text-black leading-tight group-hover:text-red-600 transition-colors flex items-center justify-between">
                       {venue.title}
@@ -128,6 +178,44 @@ export default function Network() {
               </Link>
             ))}
           </div>
+
+          {/* Live Venue Locations Directory */}
+          {venues.length > 0 && (
+            <div className="mt-12 sm:mt-16">
+              <h3 className="font-podium text-xl sm:text-2xl uppercase tracking-wider text-black dark:text-white mb-4 flex items-center gap-2">
+                <Store className="h-5 w-5 text-red-600" />
+                <span>Live Registered Store Locations ({venues.length})</span>
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {venues.slice(0, 6).map((v) => (
+                  <div 
+                    key={v.id} 
+                    className="p-4 bg-white dark:bg-neutral-900 border-2 border-black dark:border-white/20 shadow-[3px_3px_0_0_rgba(220,38,38,1)] rounded-lg flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] uppercase font-bold text-red-600 mb-1">
+                        <span>{v.category}</span>
+                        <span className="flex items-center gap-1 text-emerald-600 font-mono">
+                          <Radio className="h-3 w-3" />
+                          <span>{v.status}</span>
+                        </span>
+                      </div>
+                      <h4 className="font-podium text-base uppercase text-black dark:text-white">{v.name}</h4>
+                      <p className="text-xs text-black/60 dark:text-white/60 flex items-center gap-1 mt-1">
+                        <MapPin className="h-3 w-3 text-red-600 shrink-0" />
+                        <span>{v.city}, {v.state}</span>
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-black/10 dark:border-white/10 flex justify-between text-[11px] text-black/70 dark:text-white/70">
+                      <span>{v.speakersCount} Speakers</span>
+                      <span>{(v.monthlyFootfall / 1000).toFixed(0)}k Monthly Shoppers</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
       </section>
 
