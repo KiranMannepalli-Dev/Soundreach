@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { adminDataService } from '../../services/adminDataService';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import googleAppsScriptCode from '../../../google-apps-script.js?raw';
 import { 
   submitLeadToSheet, 
   getSheetsWebhookUrl, 
@@ -435,7 +436,8 @@ function jsonResponse(data) {
   return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
 }`;
 
-    navigator.clipboard.writeText(code).then(() => {
+    void code;
+    navigator.clipboard.writeText(googleAppsScriptCode).then(() => {
       setCopiedCode(true);
       setTimeout(() => setCopiedCode(false), 3000);
     });

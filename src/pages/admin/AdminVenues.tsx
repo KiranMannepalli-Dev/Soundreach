@@ -188,20 +188,28 @@ export default function AdminVenues() {
       return;
     }
 
+    const safeCsvCell = (val: string | number | undefined | null) => {
+      let str = String(val ?? '');
+      if (/^[=+\-@\t\r]/.test(str)) {
+        str = `'${str}`;
+      }
+      return `"${str.replace(/"/g, '""')}"`;
+    };
+
     const headers = ['ID', 'Venue Name', 'Category', 'Address', 'City', 'State', 'Speakers', 'Monthly Footfall', 'Status', 'Rev Share %', 'Receiver ID', 'Monthly Plays'];
     const rows = filteredVenues.map((v) => [
-      v.id,
-      `"${v.name.replace(/"/g, '""')}"`,
-      `"${v.category}"`,
-      `"${v.address.replace(/"/g, '""')}"`,
-      `"${v.city}"`,
-      v.state,
-      v.speakersCount,
-      v.monthlyFootfall,
-      v.status,
-      `${v.partnerRevenueSharePct}%`,
-      v.streamReceiverId,
-      v.monthlyPlays,
+      safeCsvCell(v.id),
+      safeCsvCell(v.name),
+      safeCsvCell(v.category),
+      safeCsvCell(v.address),
+      safeCsvCell(v.city),
+      safeCsvCell(v.state),
+      safeCsvCell(v.speakersCount),
+      safeCsvCell(v.monthlyFootfall),
+      safeCsvCell(v.status),
+      safeCsvCell(`${v.partnerRevenueSharePct}%`),
+      safeCsvCell(v.streamReceiverId),
+      safeCsvCell(v.monthlyPlays),
     ]);
 
     const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');

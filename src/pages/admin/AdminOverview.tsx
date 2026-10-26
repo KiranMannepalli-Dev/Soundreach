@@ -22,7 +22,7 @@ export default function AdminOverview() {
   const [venues, setVenues] = useState<AdminVenue[]>(() => adminDataService.getVenues().slice(0, 4));
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [audioInstance] = useState(() => new Audio('/advertisement.mp3'));
-  const [isSyncing, setIsSyncing] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(() => sheetSyncService.getSyncState().isSyncing);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,8 +33,13 @@ export default function AdminOverview() {
       setVenues(adminDataService.getVenues().slice(0, 4));
     };
 
+    const unsubSync = sheetSyncService.subscribe((state) => {
+      setIsSyncing(state.isSyncing);
+    });
+
     window.addEventListener('yedz_admin_data_change', handleDataChange);
     return () => {
+      unsubSync();
       window.removeEventListener('yedz_admin_data_change', handleDataChange);
       audioInstance.pause();
     };

@@ -21,7 +21,8 @@ export default function Partners() {
       email: (formData.get('email') as string) || '',
       businessName: (formData.get('businessName') as string) || '',
       locationsCount: (formData.get('locationsCount') as string) || '',
-      businessType: (formData.get('businessType') as string) || ''
+      businessType: (formData.get('businessType') as string) || '',
+      honeypot: (formData.get('_hp_check') as string) || '',
     });
 
     setIsSubmitting(false);
@@ -248,6 +249,8 @@ export default function Partners() {
             </div>
           ) : (
             <form className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-12 space-y-4 sm:space-y-6 text-left" onSubmit={handleSubmit}>
+            {/* Anti-spam honeypot */}
+            <input type="text" name="_hp_check" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
             <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label htmlFor="partner-first-name" className="block text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold mb-1.5 sm:mb-2">First Name</label>

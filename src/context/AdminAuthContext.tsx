@@ -12,39 +12,47 @@ export interface AdminUser {
 interface AdminAuthContextType {
   isAuthenticated: boolean;
   user: AdminUser | null;
-  login: (pinOrPassword: string, email?: string) => Promise<{ success: boolean; error?: string }>;
+  login: (password: string, email?: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
 const STORAGE_KEY = 'yedz_admin_auth_session';
+const SESSION_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24-hour session expiration
 
 interface AdminAccount {
   id: string;
   name: string;
   email: string;
-  password: string;
+  passwordHash: string;
   role: 'Super Admin' | 'Campaign Manager' | 'Operator';
 }
 
-// Configured Enterprise Admin Accounts
+// Cryptographic hash function using browser native Web Crypto API
+async function hashPassword(plainText: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(plainText);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Configured Enterprise Admin Accounts (Stored as SHA-256 hashes to prevent plaintext credential exposure)
 export const ADMIN_ACCOUNTS: AdminAccount[] = [
   {
     id: 'admin-karthik',
     name: 'Karthik Mannepalli',
     email: 'karthik@yedzmedia.com',
-    password: 'Yedzmedia@_02',
+    passwordHash: '7acfdca91007ab1d3d7eab6b1312ae9890f09d513adffc2ad3b4ebb1ee1da569',
     role: 'Super Admin',
   },
   {
     id: 'admin-kiran',
     name: 'Kiran Mannepalli',
     email: 'kiran@yedzmedia.com',
-    password: 'Yedzmedia@_02',
+    passwordHash: '7acfdca91007ab1d3d7eab6b1312ae9890f09d513adffc2ad3b4ebb1ee1da569',
     role: 'Super Admin',
   },
 ];
-
-const VALID_LEGACY_PINS = ['1234', '2026', 'admin'];
 
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
@@ -54,7 +62,12 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        return Boolean(parsed?.authenticated);
+        const timestamp = Number(parsed?.timestamp || 0);
+        const isNotExpired = Date.now() - timestamp < SESSION_MAX_AGE_MS;
+        if (isNotExpired && Boolean(parsed?.authenticated)) {
+          return true;
+        }
+        localStorage.removeItem(STORAGE_KEY);
       }
     } catch {
       // Ignore storage error
@@ -67,7 +80,10 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        return parsed?.user || ADMIN_ACCOUNTS[0];
+        const timestamp = Number(parsed?.timestamp || 0);
+        if (Date.now() - timestamp < SESSION_MAX_AGE_MS) {
+          return parsed?.user || null;
+        }
       }
     } catch {
       // Ignore storage error
@@ -86,15 +102,20 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   }, [isAuthenticated, user]);
 
-  const login = async (pinOrPassword: string, email?: string): Promise<{ success: boolean; error?: string }> => {
-    const trimmedPass = pinOrPassword.trim();
-    const cleanEmail = email ? email.trim().toLowerCase() : '';
+  const login = async (password: string, email?: string): Promise<{ success: boolean; error?: string }> => {
+    const trimmedPass = password.trim();
+    if (!trimmedPass) {
+      return { success: false, error: 'Please enter a valid password.' };
+    }
 
-    // 1. If an email was provided, check matching account
+    const cleanEmail = email ? email.trim().toLowerCase() : '';
+    const inputHash = await hashPassword(trimmedPass);
+
+    // 1. If an email was provided, match against that account
     if (cleanEmail) {
       const match = ADMIN_ACCOUNTS.find((acc) => acc.email.toLowerCase() === cleanEmail);
       if (match) {
-        if (trimmedPass === match.password || VALID_LEGACY_PINS.includes(trimmedPass.toLowerCase())) {
+        if (inputHash === match.passwordHash) {
           const authUser: AdminUser = {
             id: match.id,
             name: match.name,
@@ -109,8 +130,8 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
     }
 
-    // 2. Direct password match across configured accounts
-    const matchByPass = ADMIN_ACCOUNTS.find((acc) => acc.password === trimmedPass);
+    // 2. Direct password hash match across configured accounts
+    const matchByPass = ADMIN_ACCOUNTS.find((acc) => acc.passwordHash === inputHash);
     if (matchByPass) {
       const authUser: AdminUser = {
         id: matchByPass.id,
@@ -123,22 +144,9 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       return { success: true };
     }
 
-    // 3. Fallback quick PIN match
-    if (VALID_LEGACY_PINS.includes(trimmedPass.toLowerCase())) {
-      const authUser: AdminUser = {
-        id: ADMIN_ACCOUNTS[0].id,
-        name: ADMIN_ACCOUNTS[0].name,
-        email: cleanEmail || ADMIN_ACCOUNTS[0].email,
-        role: ADMIN_ACCOUNTS[0].role,
-      };
-      setUser(authUser);
-      setIsAuthenticated(true);
-      return { success: true };
-    }
-
     return { 
       success: false, 
-      error: 'Invalid login details. Please check your email and password.' 
+      error: 'Invalid login details. Please check your credentials.' 
     };
   };
 

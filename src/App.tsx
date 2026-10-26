@@ -11,6 +11,7 @@ import Advertisers from './pages/Advertisers';
 import Contact from './pages/Contact';
 import Partners from './pages/Partners';
 import AboutUs from './pages/AboutUs';
+import NotFound from './pages/NotFound';
 import JokePopups from './components/JokePopups';
 
 // Admin imports
@@ -75,8 +76,9 @@ function AppContent() {
             </Route>
           </Route>
 
-          {/* Fallback route */}
-          <Route path="*" element={<Home />} />
+          {/* 404 Not Found Routes */}
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 

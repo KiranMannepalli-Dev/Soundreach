@@ -279,6 +279,13 @@ function doGet(e) {
     }
 
     if (action === 'clearData' || action === 'reset') {
+      var authKey = (e && e.parameter && (e.parameter.key || e.parameter.token || e.parameter.secret)) || '';
+      if (authKey !== 'yedz_purge_auth_2026') {
+        return jsonResponse({
+          status: 'error',
+          message: 'Unauthorized: destructive purge operation requires admin key.'
+        });
+      }
       clearAllDummyData();
       return jsonResponse({
         status: 'success',
@@ -289,6 +296,32 @@ function doGet(e) {
     // Retrieve master leads
     var leads = readSheetRows(ss, 'All Leads');
     if (leads.length === 0) leads = readSheetRows(ss, 'Leads');
+
+    // Also check category tabs to ensure no contact inquiries or category leads are missed
+    var categoryTabs = ['Contact Inquiries', 'Contact Messages', 'Advertisers', 'Retail Partners'];
+    var knownIds = {};
+    for (var k = 0; k < leads.length; k++) {
+      var lid = leads[k].leadid || leads[k]['Lead ID'] || (leads[k].workemail + '_' + leads[k].timestamp);
+      if (lid) knownIds[String(lid).trim()] = true;
+    }
+
+    for (var ct = 0; ct < categoryTabs.length; ct++) {
+      var catRows = readSheetRows(ss, categoryTabs[ct]);
+      for (var r = 0; r < catRows.length; r++) {
+        var row = catRows[r];
+        var rowId = row.leadid || row['Lead ID'] || row.inquiryid || row['Inquiry ID'] || row.partnerid || row['Partner ID'] || (row.workemail + '_' + row.timestamp);
+        var rowKey = rowId ? String(rowId).trim() : '';
+        if (rowKey && !knownIds[rowKey]) {
+          knownIds[rowKey] = true;
+          if (!row.formsource && !row['Form Source']) {
+            row.formsource = (categoryTabs[ct] === 'Contact Inquiries' || categoryTabs[ct] === 'Contact Messages')
+              ? 'Contact Page Inquiry' : (categoryTabs[ct] === 'Advertisers' ? 'Advertisers Page Lead' : 'Retail Partner Inquiry');
+            row['Form Source'] = row.formsource;
+          }
+          leads.push(row);
+        }
+      }
+    }
 
     // Retrieve venues and campaigns
     var venues = readSheetRows(ss, 'Venues Network');
@@ -333,7 +366,10 @@ function doPost(e) {
     } else if (action === 'bulkSync') {
       handleBulkSync(ss, data);
     } else if (action === 'clearData' || action === 'reset') {
-      clearAllDummyData();
+      var postKey = data.key || data.token || data.secret || '';
+      if (postKey === 'yedz_purge_auth_2026') {
+        clearAllDummyData();
+      }
     }
 
     return jsonResponse({
@@ -369,6 +405,13 @@ function handleLeadSync(ss, data) {
 
   if (data.locationsCount) {
     messageDetails = 'Locations: ' + data.locationsCount + ' | Type: ' + (data.businessType || 'Retail');
+  }
+
+  // Prepend subject if provided (e.g. from Contact Page Inquiry) so it's visible in All Leads
+  if (data.subject && messageDetails && messageDetails.indexOf(data.subject) === -1) {
+    messageDetails = '[' + data.subject + '] ' + messageDetails;
+  } else if (data.subject && !messageDetails) {
+    messageDetails = '[' + data.subject + ']';
   }
 
   var status = normalizeStatus(data.status);

@@ -10,11 +10,23 @@ import {
   Menu, 
   X, 
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  RefreshCw
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { adminDataService } from '../../services/adminDataService';
+import { sheetSyncService, type SheetSyncState } from '../../services/sheetSyncService';
 import ThemeToggle from '../../components/ThemeToggle';
+
+function formatLastSync(date: Date | null): string {
+  if (!date) return 'Not synced';
+  const diffMs = Math.max(0, Date.now() - date.getTime());
+  const seconds = Math.floor(diffMs / 1000);
+  if (seconds < 15) return 'Just now';
+  if (seconds < 60) return `${seconds}s ago`;
+  const mins = Math.floor(seconds / 60);
+  return `${mins}m ago`;
+}
 
 export default function AdminLayout() {
   const { user, logout } = useAdminAuth();
@@ -22,6 +34,7 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [metrics, setMetrics] = useState(() => adminDataService.getOverviewMetrics());
+  const [syncState, setSyncState] = useState<SheetSyncState>(() => sheetSyncService.getSyncState());
 
   // Listen to data changes to update counts
   useEffect(() => {
@@ -31,6 +44,20 @@ export default function AdminLayout() {
     window.addEventListener('yedz_admin_data_change', handleDataChange);
     return () => window.removeEventListener('yedz_admin_data_change', handleDataChange);
   }, []);
+
+  // Initialize background dynamic sync with Google Sheets (runs every 25s)
+  useEffect(() => {
+    sheetSyncService.startAutoSync(25);
+    const unsub = sheetSyncService.subscribe((s) => setSyncState(s));
+    return () => {
+      unsub();
+      sheetSyncService.stopAutoSync();
+    };
+  }, []);
+
+  const handleManualSync = async () => {
+    await sheetSyncService.fetchFromSheet();
+  };
 
   const handleLogout = () => {
     logout();
@@ -110,8 +137,29 @@ export default function AdminLayout() {
           </Link>
         </div>
 
-        {/* Right: Theme Toggle & User Info */}
-        <div className="flex items-center gap-3">
+        {/* Right: Sync Status, Theme Toggle & User Info */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Dynamic Sync Status Button */}
+          <button
+            onClick={handleManualSync}
+            disabled={syncState.isSyncing}
+            className={`flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 text-xs font-medium rounded-md border transition-all cursor-pointer ${
+              syncState.isSyncing
+                ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300'
+                : 'bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200'
+            }`}
+            title="Google Sheets Live 2-Way Sync (Auto-refreshes every 25s)"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${syncState.isSyncing ? 'animate-spin text-amber-500' : 'text-emerald-500'}`} />
+            <span className="hidden sm:inline font-semibold">
+              {syncState.isSyncing ? 'Syncing...' : 'Sync Sheets'}
+            </span>
+            <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-slate-400 border-l border-slate-200 dark:border-slate-700 pl-1.5">
+              <span className={`h-1.5 w-1.5 rounded-full ${syncState.isSyncing ? 'bg-amber-500 animate-ping' : 'bg-emerald-500 animate-pulse'}`}></span>
+              <span>{syncState.lastSyncedAt ? formatLastSync(syncState.lastSyncedAt) : 'Live'}</span>
+            </span>
+          </button>
+
           <ThemeToggle showLabel={false} />
 
           <div className="h-5 w-[1px] bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>

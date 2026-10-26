@@ -13,10 +13,11 @@ export interface FormPayload {
   businessName?: string;
   locationsCount?: string;
   businessType?: string;
+  honeypot?: string;
 }
 
 export const STORAGE_KEY_CUSTOM_SHEET_URL = 'yedz_google_sheets_url';
-export const DEFAULT_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyLxdV9zhrfeTMsGkFZYwS-HKR1oDJKTAYJtGoA__85f2544o1UtKZE2JSOLnOPSDytCg/exec';
+export const DEFAULT_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwb-0e_We2K2usDXBqHmj-Mc13W66d5Bi49k-juYr7MTc71o7KFeRbG2TIo6_91MuJjaw/exec';
 
 /**
  * Returns the currently active Google Sheets Web App URL.
@@ -57,19 +58,29 @@ export function isCustomSheetsUrlActive(): boolean {
 }
 
 export async function submitLeadToSheet(payload: FormPayload): Promise<{ success: boolean; error?: string }> {
+  // Anti-bot Honeypot check: if honeypot trap field is filled, silently ignore
+  if (payload.honeypot && payload.honeypot.trim().length > 0) {
+    console.warn('Bot submission blocked by honeypot.');
+    return { success: true };
+  }
+
   const url = getSheetsWebhookUrl();
 
-  // 1. Immediately store in Admin Panel database so it appears dynamically in the dashboard
-  const fullName = `${payload.firstName || ''} ${payload.lastName || ''}`.trim() || 'New Lead';
-  const companyName = payload.company || payload.businessName || '';
-  const messageContent = payload.message || payload.goals || (payload.locationsCount ? `Locations: ${payload.locationsCount} | Type: ${payload.businessType}` : '');
+  // Basic payload sanitization & length limits
+  const cleanFirstName = (payload.firstName || '').slice(0, 100).trim();
+  const cleanLastName = (payload.lastName || '').slice(0, 100).trim();
+  const cleanEmail = (payload.email || '').slice(0, 254).trim();
+  const companyName = (payload.company || payload.businessName || '').slice(0, 200).trim();
+  const fullName = `${cleanFirstName} ${cleanLastName}`.trim() || 'New Lead';
+  const rawMessage = payload.message || payload.goals || (payload.locationsCount ? `Locations: ${payload.locationsCount} | Type: ${payload.businessType}` : '');
+  const messageContent = rawMessage.slice(0, 5000).trim();
 
   let createdLeadId = '';
   try {
     const created = adminDataService.addLead({
       formType: payload.formType,
       name: fullName,
-      email: payload.email,
+      email: cleanEmail,
       company: companyName,
       phone: payload.phone || '',
       locationsCount: payload.locationsCount || '',
@@ -94,7 +105,7 @@ export async function submitLeadToSheet(payload: FormPayload): Promise<{ success
     formType: payload.formType,
     firstName: payload.firstName || '',
     lastName: payload.lastName || '',
-    email: payload.email,
+    email: cleanEmail,
     company: companyName,
     businessName: payload.businessName || '',
     locationsCount: payload.locationsCount || '',

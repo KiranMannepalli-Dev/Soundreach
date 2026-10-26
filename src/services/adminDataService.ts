@@ -67,6 +67,15 @@ try {
   // Ignore in non-browser environments
 }
 
+// Listen for cross-tab storage changes (e.g. form submission in another tab)
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key && Object.values(STORAGE_KEYS).includes(e.key)) {
+      window.dispatchEvent(new Event('yedz_admin_data_change'));
+    }
+  });
+}
+
 // Zero dummy data by default
 const INITIAL_LEADS: AdminLead[] = [];
 const INITIAL_CAMPAIGNS: AdminCampaign[] = [];
@@ -103,6 +112,65 @@ export const adminDataService = {
 
   setLeads(leads: AdminLead[]): void {
     setStored(STORAGE_KEYS.LEADS, leads);
+  },
+
+  /**
+   * Smart merge remote leads from Google Sheets with local leads.
+   * Preserves recent locally created leads that may still be in transit,
+   * updates existing entries, and deduplicates.
+   */
+  mergeLeads(remoteLeads: AdminLead[]): AdminLead[] {
+    const localLeads = this.getLeads();
+    const mergedMap = new Map<string, AdminLead>();
+
+    // 1. Add all remote leads from Google Sheets
+    remoteLeads.forEach((rl) => {
+      const key = rl.id || `${rl.email}_${rl.createdAt}`;
+      mergedMap.set(key, rl);
+    });
+
+    // 2. Preserve local leads that aren't in remote yet (submitted recently)
+    const now = Date.now();
+    localLeads.forEach((ll) => {
+      // Check if an equivalent remote lead already exists (by id or by email+formType)
+      const exactMatch = mergedMap.has(ll.id);
+      const emailMatch = Array.from(mergedMap.values()).find(
+        (rl) => rl.email && rl.email.toLowerCase() === ll.email.toLowerCase() && rl.formType === ll.formType
+      );
+
+      if (!exactMatch && !emailMatch) {
+        // Keep local lead if it was created within the last 24 hours
+        const leadAgeMs = now - new Date(ll.createdAt).getTime();
+        if (isNaN(leadAgeMs) || leadAgeMs < 24 * 60 * 60 * 1000) {
+          mergedMap.set(ll.id, ll);
+        }
+      }
+    });
+
+    const result = Array.from(mergedMap.values()).sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    setStored(STORAGE_KEYS.LEADS, result);
+    return result;
+  },
+
+  /**
+   * Smart merge remote venues from Google Sheets with local venues
+   */
+  mergeVenues(remoteVenues: AdminVenue[]): AdminVenue[] {
+    if (!remoteVenues || remoteVenues.length === 0) return this.getVenues();
+    setStored(STORAGE_KEYS.VENUES, remoteVenues);
+    return remoteVenues;
+  },
+
+  /**
+   * Smart merge remote campaigns from Google Sheets with local campaigns
+   */
+  mergeCampaigns(remoteCampaigns: AdminCampaign[]): AdminCampaign[] {
+    if (!remoteCampaigns || remoteCampaigns.length === 0) return this.getCampaigns();
+    setStored(STORAGE_KEYS.CAMPAIGNS, remoteCampaigns);
+    return remoteCampaigns;
   },
 
   addLead(lead: Omit<AdminLead, 'id' | 'createdAt'>, skipRemoteSync: boolean = false): AdminLead {

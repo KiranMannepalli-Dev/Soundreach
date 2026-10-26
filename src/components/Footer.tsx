@@ -85,14 +85,17 @@ const Footer = () => {
                     const form = e.currentTarget;
                     const formData = new FormData(form);
                     const email = (formData.get('email') as string) || '';
+                    const honeypot = (formData.get('_hp_check') as string) || '';
                     await submitLeadToSheet({
                       formType: 'Newsletter Subscription',
-                      email
+                      email,
+                      honeypot
                     });
                     setIsSubmitting(false);
                     setIsSubscribed(true); 
                   }}
                 >
+                  <input type="text" name="_hp_check" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
                   <input 
                     id="newsletter-email" 
                     name="email" 

@@ -18,8 +18,10 @@ export default function Contact() {
       firstName: (formData.get('firstName') as string) || '',
       lastName: (formData.get('lastName') as string) || '',
       email: (formData.get('email') as string) || '',
+      company: (formData.get('company') as string) || '',
       subject: (formData.get('subject') as string) || 'Contact Inquiry',
-      message: (formData.get('message') as string) || ''
+      message: (formData.get('message') as string) || '',
+      honeypot: (formData.get('_hp_check') as string) || '',
     });
 
     setIsSubmitting(false);
@@ -84,6 +86,8 @@ export default function Contact() {
               </div>
             ) : (
               <form className="bg-white text-black border-2 border-black shadow-[4px_4px_0_0_rgba(220,38,38,1)] sm:shadow-[8px_8px_0_0_rgba(220,38,38,1)] p-5 sm:p-10 space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+              {/* Anti-spam honeypot (invisible to humans, traps automated bot submission) */}
+              <input type="text" name="_hp_check" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
               <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label htmlFor="contact-first-name" className="block text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold mb-1.5 sm:mb-2">First Name</label>
@@ -94,9 +98,15 @@ export default function Contact() {
                   <input id="contact-last-name" name="lastName" type="text" autoComplete="family-name" required className="w-full bg-neutral-50 border-2 border-neutral-300 shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-none focus:translate-x-[2px] focus:translate-y-[2px] px-3 sm:px-4 py-2.5 sm:py-3 text-black text-sm focus:outline-none focus:border-red-600 transition-colors" />
                 </div>
               </div>
-              <div>
-                <label htmlFor="contact-email" className="block text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold mb-1.5 sm:mb-2">Work Email</label>
-                <input id="contact-email" name="email" type="email" autoComplete="email" required className="w-full bg-neutral-50 border-2 border-neutral-300 shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-none focus:translate-x-[2px] focus:translate-y-[2px] px-3 sm:px-4 py-2.5 sm:py-3 text-black text-sm focus:outline-none focus:border-red-600 transition-colors" />
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                <div>
+                  <label htmlFor="contact-email" className="block text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold mb-1.5 sm:mb-2">Work Email</label>
+                  <input id="contact-email" name="email" type="email" autoComplete="email" required className="w-full bg-neutral-50 border-2 border-neutral-300 shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-none focus:translate-x-[2px] focus:translate-y-[2px] px-3 sm:px-4 py-2.5 sm:py-3 text-black text-sm focus:outline-none focus:border-red-600 transition-colors" />
+                </div>
+                <div>
+                  <label htmlFor="contact-company" className="block text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold mb-1.5 sm:mb-2">Company / Business</label>
+                  <input id="contact-company" name="company" type="text" autoComplete="organization" placeholder="Optional" className="w-full bg-neutral-50 border-2 border-neutral-300 shadow-[3px_3px_0_0_rgba(220,38,38,1)] sm:shadow-[4px_4px_0_0_rgba(220,38,38,1)] focus:shadow-none focus:translate-x-[2px] focus:translate-y-[2px] px-3 sm:px-4 py-2.5 sm:py-3 text-black text-sm focus:outline-none focus:border-red-600 transition-colors" />
+                </div>
               </div>
               <div>
                 <label htmlFor="contact-subject" className="block text-[10px] sm:text-xs uppercase tracking-widest text-black/70 font-bold mb-1.5 sm:mb-2">Subject</label>

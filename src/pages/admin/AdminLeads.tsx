@@ -12,9 +12,11 @@ import {
   Building2, 
   Calendar, 
   FileSpreadsheet,
-  AlertCircle
+  AlertCircle,
+  RefreshCw
 } from 'lucide-react';
 import { adminDataService, type AdminLead } from '../../services/adminDataService';
+import { sheetSyncService } from '../../services/sheetSyncService';
 
 type StatusFilter = 'all' | 'new' | 'contacted' | 'negotiating' | 'converted' | 'archived';
 
@@ -23,6 +25,7 @@ export default function AdminLeads() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [isSyncingSheets, setIsSyncingSheets] = useState(() => sheetSyncService.getSyncState().isSyncing);
   
   // Modals
   const [selectedLead, setSelectedLead] = useState<AdminLead | null>(null);
@@ -58,6 +61,28 @@ export default function AdminLeads() {
     window.addEventListener('yedz_admin_data_change', handleDataChange);
     return () => window.removeEventListener('yedz_admin_data_change', handleDataChange);
   }, []);
+
+  // Fetch latest data from Google Sheets when opening Leads page
+  useEffect(() => {
+    let isMounted = true;
+    sheetSyncService.fetchFromSheet().finally(() => {
+      if (isMounted) {
+        setIsSyncingSheets(false);
+        refreshLeads();
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleSyncFromSheets = async () => {
+    setIsSyncingSheets(true);
+    const res = await sheetSyncService.fetchFromSheet();
+    setIsSyncingSheets(false);
+    refreshLeads();
+    showToast(res.message);
+  };
 
   // Filtered Leads
   const filteredLeads = useMemo(() => {
@@ -146,19 +171,27 @@ export default function AdminLeads() {
       return;
     }
 
+    const safeCsvCell = (val: string | number | undefined | null) => {
+      let str = String(val ?? '');
+      if (/^[=+\-@\t\r]/.test(str)) {
+        str = `'${str}`;
+      }
+      return `"${str.replace(/"/g, '""')}"`;
+    };
+
     const headers = ['ID', 'Date', 'Name', 'Email', 'Company', 'Phone', 'Source', 'Status', 'Priority', 'Message', 'Notes'];
     const rows = filteredLeads.map((l) => [
-      l.id,
-      new Date(l.createdAt).toLocaleDateString(),
-      `"${(l.name || '').replace(/"/g, '""')}"`,
-      l.email,
-      `"${(l.company || '').replace(/"/g, '""')}"`,
-      l.phone || '',
-      `"${l.formType}"`,
-      l.status,
-      l.priority,
-      `"${(l.goals || l.message || '').replace(/"/g, '""')}"`,
-      `"${(l.notes || '').replace(/"/g, '""')}"`,
+      safeCsvCell(l.id),
+      safeCsvCell(new Date(l.createdAt).toLocaleDateString()),
+      safeCsvCell(l.name),
+      safeCsvCell(l.email),
+      safeCsvCell(l.company),
+      safeCsvCell(l.phone),
+      safeCsvCell(l.formType),
+      safeCsvCell(l.status),
+      safeCsvCell(l.priority),
+      safeCsvCell(l.goals || l.message),
+      safeCsvCell(l.notes),
     ]);
 
     const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
@@ -195,6 +228,16 @@ export default function AdminLeads() {
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={handleSyncFromSheets}
+            disabled={isSyncingSheets}
+            className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-md shadow-sm transition-colors cursor-pointer disabled:opacity-50"
+            title="Pull latest submissions from Google Sheets"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 text-emerald-500 ${isSyncingSheets ? 'animate-spin' : ''}`} />
+            <span>{isSyncingSheets ? 'Syncing...' : 'Sync with Sheets'}</span>
+          </button>
+
           <button
             onClick={handleExportCSV}
             className="inline-flex items-center gap-1.5 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-md shadow-sm transition-colors cursor-pointer"
@@ -303,8 +346,18 @@ export default function AdminLeads() {
                     </td>
 
                     <td className="py-3 px-4">
-                      <span className="text-[11px] text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
-                        {lead.formType.replace(' Page Lead', '').replace(' Page Inquiry', '').replace(' Inquiry', '')}
+                      <span className={`text-[11px] font-medium px-2 py-0.5 rounded border inline-flex items-center gap-1 ${
+                        lead.formType.includes('Contact')
+                          ? 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-300 dark:border-sky-800'
+                          : lead.formType.includes('Advertiser')
+                          ? 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800'
+                          : lead.formType.includes('Partner') || lead.formType.includes('Retail')
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
+                          : lead.formType.includes('Newsletter')
+                          ? 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800'
+                          : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
+                      }`}>
+                        {lead.formType.replace(' Page Lead', '').replace(' Page Inquiry', '').replace(' Inquiry', '').replace(' Subscription', '')}
                       </span>
                     </td>
 
@@ -471,6 +524,15 @@ export default function AdminLeads() {
                   </div>
                 </div>
               </div>
+
+              {selectedLead.subject && (
+                <div className="space-y-1">
+                  <span className="text-[11px] font-semibold text-slate-500">Subject</span>
+                  <div className="p-2.5 bg-slate-50 dark:bg-slate-800/40 rounded border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs">
+                    {selectedLead.subject}
+                  </div>
+                </div>
+              )}
 
               {(selectedLead.goals || selectedLead.message) && (
                 <div className="space-y-1">

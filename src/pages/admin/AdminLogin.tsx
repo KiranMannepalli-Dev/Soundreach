@@ -17,7 +17,7 @@ export default function AdminLogin() {
   const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!pin.trim()) {
-      setError('Please enter your Admin PIN or Master Password');
+      setError('Please enter your admin password');
       return;
     }
 
